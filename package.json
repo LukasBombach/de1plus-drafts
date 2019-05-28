@@ -1,0 +1,9 @@
+{
+  "name": "de1plus",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "tcl": "2.4.0"
+  }
+}
