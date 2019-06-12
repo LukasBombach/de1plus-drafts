@@ -1,12 +1,27 @@
 {
   "name": "de1plus",
   "version": "1.0.0",
-  "main": "lib/index.js",
+  "main": "dist/how-long-till-lunch.cjs.js",
+  "module": "dist/how-long-till-lunch.esm.js",
+  "browser": "dist/how-long-till-lunch.umd.js",
   "license": "MIT",
-  "dependencies": {
-    "@abandonware/noble": "1.9.2-2",
-    "binary": "0.3.0",
-    "chalk": "2.4.2",
-    "tcl": "2.4.0"
-  }
+  "dependencies": {},
+  "devDependencies": {
+    "rollup": "1.0.0",
+    "rollup-plugin-commonjs": "9.2.0",
+    "rollup-plugin-node-resolve": "4.0.0",
+    "rollup-plugin-typescript": "1.0.0",
+    "ts-node": "7.0.1",
+    "tslib": "1.9.3",
+    "typescript": "3.2.2"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "ts-node test/test.ts",
+    "pretest": "yarn build"
+  },
+  "files": [
+    "dist"
+  ]
 }
