@@ -3,8 +3,13 @@ import * as React from "react";
 import recordedData from "../lib/characteristics/recordedData";
 import characteristics from "../lib/characteristics";
 
-Object.entries(recordedData).forEach(([key, val]) => {
-  console.log(key, characteristics[key].parse(val));
-});
+export default () => (
+  <pre>
+    {Object.entries(recordedData).map(
+      ([key, val]) => `${key}
+${JSON.stringify(characteristics[key].parse(val), null, 2)}
 
-export default () => <p>Hello World</p>;
+`
+    )}
+  </pre>
+);

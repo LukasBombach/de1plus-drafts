@@ -1,8 +1,4 @@
-import * as binary from "binary";
-
-// char unsigned = word8u
-// Short unsigned = word16bu
-// int unsigned = word32lu
+import binary from "binary";
 
 export interface Versions {
   bluetooth: Version;
@@ -18,7 +14,7 @@ export interface Version {
 }
 
 export default (buffer: Buffer): Versions => {
-  const result = binary
+  const versions = (binary
     .parse(buffer)
     .word8u("bluetooth.apiVersion")
     .word8u("bluetooth.release")
@@ -29,22 +25,14 @@ export default (buffer: Buffer): Versions => {
     .word8u("firmware.release")
     .word16bu("firmware.commits")
     .word8u("firmware.changes")
-    .word32lu("firmware.sha");
-  return (result.vars as any) as Versions; // TODO remove hack
+    .word32lu("firmware.sha").vars as any) as Versions; // TODO remove hack
+
+  versions.bluetooth.sha = convertToHex(versions.bluetooth.sha);
+  versions.firmware.sha = convertToHex(versions.firmware.sha);
+
+  return versions;
 };
 
-/*
-	set spec {
-		BLE_APIVersion {char {} {} {unsigned} {}}
-		BLE_Release {char {} {} {unsigned} {[convert_F8_1_7_to_float $val]}}
-		BLE_Commits {Short {} {} {undsigned} {}}
-		BLE_Changes {char {} {} {unsigned} {}}
-		BLE_Sha {int {} {} {unsigned} {[format %X $val]}}
-
-		FW_APIVersion {char {} {} {unsigned} {}}
-		FW_Release {char {} {} {unsigned} {[convert_F8_1_7_to_float $val]}}
-		FW_Commits {Short {} {} {unsigned} {}}
-		FW_Changes {char {} {} {unsigned} {}}
-		FW_Sha {int {} {} {unsigned} {[format %X $val]}}
-	}
-*/
+function convertToHex(val: string | object): string {
+  return typeof val === "object" ? "0" : parseInt(val).toString(16);
+}

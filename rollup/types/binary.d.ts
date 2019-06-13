@@ -6,6 +6,7 @@ declare module "binary" {
     word8u: (name: string) => Results;
     word16bu: (name: string) => Results;
     word32lu: (name: string) => Results;
+    into: (name: string, callback: Function) => Results;
   }
   export interface Vars {
     [key: string]: string | Vars;
