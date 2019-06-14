@@ -1,29 +1,17 @@
-const { parse } = require("binary");
+import parse, { BinaryDesc } from "./binaryParser";
 
-// char unsigned = word8u
-// Short unsigned = word16bu
-// int unsigned = word32lu
+// prettier-ignore
+export const binaryDesc: BinaryDesc[] = [
+  { name: "steamSettings", type: "char" },
+  { name: "targetSteamTemp", type: "char" },
+  { name: "targetSteamLength", type: "char" },
+  { name: "targetHotWaterTemp", type: "char" },
+  { name: "targetHotWaterVol", type: "char" },
+  { name: "targetHotWaterLength", type: "char" },
+  { name: "targetEspressoVol", type: "char" },
+  { name: "targetGroupTemp", type: "short" }
+];
 
-export interface HotwaterSteam {
-  steamSettings: string;
-  targetSteamTemp: string;
-  targetSteamLength: string;
-  targetHotWaterTemp: string;
-  targetHotWaterVol: string;
-  targetHotWaterLength: string;
-  targetEspressoVol: string;
-  targetGroupTemp: string;
-}
-
-export default (buffer: Buffer): HotwaterSteam => {
-  const result = parse(buffer)
-    .word8u("steamSettings")
-    .word8u("targetSteamTemp")
-    .word8u("targetSteamLength")
-    .word8u("targetHotWaterTemp")
-    .word8u("targetHotWaterVol")
-    .word8u("targetHotWaterLength")
-    .word8u("targetEspressoVol")
-    .word16bu("targetGroupTemp");
-  return result.vars;
+export default (buffer: Buffer) => {
+  return parse(buffer, binaryDesc);
 };

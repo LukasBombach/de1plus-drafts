@@ -1,25 +1,15 @@
-import binary from "binary";
+import parse, { BinaryDesc } from "./binaryParser";
 
-// char unsigned = word8u
-// Short unsigned = word16bu
-// int unsigned = word32lu
+// prettier-ignore
+export const binaryDesc: BinaryDesc[] = [
+  { name: "windowIncrement", type: "short" },
+  { name: "fWToErase", type: "char" },
+  { name: "fWToMap", type: "char" },
+  { name: "firstError1", type: "char" },
+  { name: "firstError2", type: "char" },
+  { name: "firstError3", type: "char" },
+];
 
-export interface MapRequest {
-  windowIncrement: string;
-  fWToErase: string;
-  fWToMap: string;
-  firstError1: string;
-  firstError2: string;
-  firstError3: string;
-}
-
-export default (buffer: Buffer): MapRequest => {
-  return (binary
-    .parse(buffer)
-    .word16bu("windowIncrement")
-    .word8u("fWToErase")
-    .word8u("fWToMap")
-    .word8u("firstError1")
-    .word8u("firstError2")
-    .word8u("firstError3").vars as any) as MapRequest; // TODO remove hack
+export default (buffer: Buffer) => {
+  return parse(buffer, binaryDesc);
 };

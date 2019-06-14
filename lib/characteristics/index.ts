@@ -3,6 +3,7 @@ import stateChange from "./stateChange";
 import firmwareWriteAck from "./firmwareWriteAck";
 import mapRequest from "./mapRequest";
 import hotwaterSteamSettings from "./hotwaterSteamSettings";
+import shotDesc from "./shotDesc";
 
 export interface Characteristics {
   [uuid: string]: Characteristic;
@@ -94,9 +95,9 @@ const characteristics: Characteristics = {
   },
   a00c: {
     uuid: "a00c",
-    name: "unknown", // TODO espresso frame settings / shot desc / shot data
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.NotImplemented
+    name: "shot description",
+    parse: shotDesc,
+    status: Status.Done
   },
   a00d: {
     uuid: "a00d",
