@@ -1,12 +1,12 @@
-import binary from "binary";
+import { parse } from "binary";
 
 export interface StateChange {
   firmwareWriteAck: number;
 }
 
 export default (buffer: Buffer): StateChange => {
-  const firmwareWriteAckString = binary.parse(buffer).word8u("firmwareWriteAck")
-    .vars.firmwareWriteAck as string;
+  const firmwareWriteAckString = parse(buffer).word8u("firmwareWriteAck").vars
+    .firmwareWriteAck as string;
   const firmwareWriteAck = parseInt(firmwareWriteAckString);
   return { firmwareWriteAck };
 };

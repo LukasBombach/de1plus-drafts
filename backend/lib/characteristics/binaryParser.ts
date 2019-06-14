@@ -1,4 +1,4 @@
-import binary, { Results, Vars } from "binary";
+import { parse, Results, Vars } from "binary";
 
 export interface BinaryDesc {
   name: string;
@@ -26,7 +26,7 @@ const binDescMap: BinDescMap = {
 };
 
 export default (buffer: Buffer, descriptions: BinaryDesc[]) => {
-  const initialBin = binary.parse(buffer);
+  const initialBin = parse(buffer);
   const results = descriptions.reduce(chainBinary, initialBin).vars;
   const processedResults = processResults(descriptions, results);
   return processedResults;

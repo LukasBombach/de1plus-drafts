@@ -1,6 +1,6 @@
-import * as React from "react";
-import recordedData from "../lib/characteristics/recordedData";
-import characteristics, { Status } from "../lib/characteristics";
+import React from "react";
+import recordedData from "../../lib/characteristics/recordedData";
+import characteristics, { Status } from "../../lib/characteristics";
 
 export default () => (
   <pre>

@@ -18,4 +18,5 @@ declare module "binary" {
   export type Results = ResultsVars & ResultsFns;
 
   export function parse(buffer: Buffer): Results;
+  // export default function binary(buffer: Buffer, eventName: string): Results;
 }
