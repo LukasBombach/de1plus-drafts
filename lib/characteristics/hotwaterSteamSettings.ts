@@ -9,7 +9,7 @@ export const binaryDesc: BinaryDesc[] = [
   { name: "targetHotWaterVol", type: "char" },
   { name: "targetHotWaterLength", type: "char" },
   { name: "targetEspressoVol", type: "char" },
-  { name: "targetGroupTemp", type: "short" }
+  { name: "targetGroupTemp", type: "short", process: v => v / 256 }
 ];
 
 export default (buffer: Buffer) => {

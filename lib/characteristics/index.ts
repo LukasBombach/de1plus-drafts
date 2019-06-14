@@ -6,6 +6,9 @@ import hotwaterSteamSettings from "./hotwaterSteamSettings";
 import shotDesc from "./shotDesc";
 import shotValue from "./shotValue";
 import shotDescHeader from "./shotDescHeader";
+import shotFrame from "./shotFrame";
+import waterLevel from "./waterLevel";
+import calibrate from "./calibrate";
 
 export interface Characteristics {
   [uuid: string]: Characteristic;
@@ -121,21 +124,21 @@ const characteristics: Characteristics = {
   },
   a010: {
     uuid: "a010",
-    name: "unknown", // TODO shot frame
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.NotImplemented
+    name: "shot frame",
+    parse: shotFrame,
+    status: Status.Done
   },
   a011: {
     uuid: "a011",
     name: "water level",
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.NotImplemented
+    parse: waterLevel,
+    status: Status.Done
   },
   a012: {
     uuid: "a012",
-    name: "unknown", // TODO calibration notifications
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.NotImplemented
+    name: "calibrate",
+    parse: calibrate,
+    status: Status.Done
   }
 };
 

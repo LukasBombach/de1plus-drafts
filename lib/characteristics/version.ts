@@ -18,6 +18,6 @@ export default (buffer: Buffer) => {
   return parse(buffer, binaryDesc);
 };
 
-function convertToHex(val: string | object): string {
-  return typeof val === "object" ? "0" : parseInt(val).toString(16);
+function convertToHex(val: number | object): string {
+  return typeof val === "object" ? "0" : val.toString(16);
 }
