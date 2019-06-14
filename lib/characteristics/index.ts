@@ -5,6 +5,7 @@ import mapRequest from "./mapRequest";
 import hotwaterSteamSettings from "./hotwaterSteamSettings";
 import shotDesc from "./shotDesc";
 import shotValue from "./shotValue";
+import shotDescHeader from "./shotDescHeader";
 
 export interface Characteristics {
   [uuid: string]: Characteristic;
@@ -108,15 +109,15 @@ const characteristics: Characteristics = {
   },
   a00e: {
     uuid: "a00e",
-    name: "unknown", // TODO machine state? Sleep?
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.NotImplemented
+    name: "state change 2???",
+    parse: stateChange,
+    status: Status.Done
   },
   a00f: {
     uuid: "a00f",
-    name: "unknown", // TODO shot desc header
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.NotImplemented
+    name: "shot descripton header",
+    parse: shotDescHeader,
+    status: Status.Done
   },
   a010: {
     uuid: "a010",

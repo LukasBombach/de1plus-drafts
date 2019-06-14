@@ -15,7 +15,7 @@ function isNotUnknown([key, val]: [string, Buffer]): boolean {
 }
 
 function asJson([key, val]: [string, Buffer]): string {
-  return `${key}
+  return `${key} - ${characteristics[key].name}
 ${JSON.stringify(characteristics[key].parse(val), null, 2)}
 
 `;
