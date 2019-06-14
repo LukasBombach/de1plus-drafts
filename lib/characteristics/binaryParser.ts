@@ -1,5 +1,4 @@
 import binary, { Results, Vars } from "binary";
-import { mapKeys } from "lodash";
 
 export interface BinaryDesc {
   name: string;
@@ -13,6 +12,10 @@ export interface ParsedBinary {
 
 interface BinDescMap {
   [type: string]: string;
+}
+
+interface Obj {
+  [key: string]: any;
 }
 
 const binDescMap: BinDescMap = {
@@ -34,11 +37,23 @@ function chainBinary(bin: Results, { type, name }: BinaryDesc) {
 }
 
 function processResults(descs: BinaryDesc[], results: Vars): ParsedBinary {
-  return mapKeys(results, (value, key) => getProcessor(key, descs)(value));
+  const processors = descs.filter(desc => typeof desc.process === "function");
+  processors.forEach(({ name, process }) =>
+    callProcess(results, process as Function, name)
+  );
+  return results;
 }
 
-function getProcessor(key: string, descs: BinaryDesc[]) {
-  const desc = descs.find(({ name }) => name === key) as BinaryDesc;
-  if (!desc.process || typeof desc.process !== "function") return (v: any) => v;
-  return desc.process;
+function callProcess(results: Vars, process: Function, path: string) {
+  const valPath = path.split(".");
+  const objPath = valPath.slice(0, -1);
+  const valName = valPath.slice(-1)[0];
+  const obj = objPath.length ? getNestedValue(results, objPath) : results;
+  obj[valName] = process(obj[valName]);
+}
+
+function getNestedValue(baseObj: Obj, pathArr: string[]) {
+  const isUndef = (o: Obj, k: string) => o && o[k] !== "undefined";
+  const getKey = (o: Obj, k: string) => (isUndef(o, k) ? o[k] : undefined);
+  return pathArr.reduce(getKey, baseObj);
 }
