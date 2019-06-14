@@ -64,7 +64,7 @@ const characteristics: Characteristics = {
   },
   a006: {
     uuid: "a006",
-    name: "unknown",
+    name: "firmware write ack",
     parse: firmwareWriteAck,
     status: Status.Done
   },
