@@ -3,7 +3,7 @@ import binary, { Results, Vars } from "binary";
 export interface BinaryDesc {
   name: string;
   type: string;
-  process?: (value: number) => any | string;
+  process?: (value: number) => any;
 }
 
 export interface ParsedBinary {

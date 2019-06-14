@@ -4,6 +4,7 @@ import firmwareWriteAck from "./firmwareWriteAck";
 import mapRequest from "./mapRequest";
 import hotwaterSteamSettings from "./hotwaterSteamSettings";
 import shotDesc from "./shotDesc";
+import shotValue from "./shotValue";
 
 export interface Characteristics {
   [uuid: string]: Characteristic;
@@ -101,9 +102,9 @@ const characteristics: Characteristics = {
   },
   a00d: {
     uuid: "a00d",
-    name: "unknown", // TODO Shot Value
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.NotImplemented
+    name: "shot value", // TODO Shot Value
+    parse: shotValue,
+    status: Status.Done
   },
   a00e: {
     uuid: "a00e",
