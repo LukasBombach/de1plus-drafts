@@ -25,7 +25,7 @@ const binDescMap: BinDescMap = {
   short: "word16bu"
 };
 
-export default (buffer: Buffer, descriptions: BinaryDesc[]) => {
+export default (buffer: Buffer, descriptions: BinaryDesc[]): ParsedBinary => {
   const initialBin = parse(buffer);
   const results = descriptions.reduce(chainBinary, initialBin).vars;
   const processedResults = processResults(descriptions, results);

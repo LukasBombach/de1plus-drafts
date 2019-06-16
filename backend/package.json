@@ -9,9 +9,11 @@
     "@abandonware/noble": "1.9.2-2",
     "binary": "0.3.0",
     "graphql-type-json": "0.3.0",
-    "graphql-yoga": "1.17.4"
+    "graphql-yoga": "1.17.4",
+    "lodash": "4.17.11"
   },
   "devDependencies": {
+    "@types/lodash": "4.14.134",
     "ts-node": "7.0.1",
     "ts-node-dev": "1.0.0-pre.40",
     "typescript": "3.2.2"

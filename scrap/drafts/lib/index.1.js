@@ -17,15 +17,19 @@ const { connect, disconnect } = require("./connect");
         ) {
           console.log("discovered the following characteristics:");
 
-          characteristics.forEach(characteristic => {
-            characteristic.read(function(error, data) {
+          characteristics.forEach(c => {
+            //console.log("\n\n");
+
+            console.log(c.uuid, c.properties);
+
+            /* characteristic.read(function(error, data) {
               const vars = parse(data)
                 .word16lu("level")
                 .word16lu("start").vars;
 
-              /* Object.keys(vars).map(function(key) {
-                vars[key] = parseFloat((vars[key] / 256).toFixed(2));
-              }); */
+              //Object.keys(vars).map(function(key) {
+              //  vars[key] = parseFloat((vars[key] / 256).toFixed(2));
+              //}); 
 
               const {
                 uuid,
@@ -42,7 +46,7 @@ const { connect, disconnect } = require("./connect");
                 level,
                 start
               });
-            });
+            }); */
           });
         });
       }

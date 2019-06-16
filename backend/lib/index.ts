@@ -1,5 +1,5 @@
 import { Peripheral } from "@abandonware/noble";
-import { connect, disconnect } from "../lib/machine";
+import { connect, disconnect } from "../lib/machine/connect";
 
 export default class DE1 {
   private peripheral: Peripheral = null;

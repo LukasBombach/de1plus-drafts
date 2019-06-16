@@ -1,145 +1,83 @@
-import version from "./version";
-import stateChange from "./stateChange";
-import firmwareWriteAck from "./firmwareWriteAck";
-import mapRequest from "./mapRequest";
-import hotwaterSteamSettings from "./hotwaterSteamSettings";
-import shotDesc from "./shotDesc";
-import shotValue from "./shotValue";
-import shotDescHeader from "./shotDescHeader";
-import shotFrame from "./shotFrame";
-import waterLevel from "./waterLevel";
-import calibrate from "./calibrate";
+import { Peripheral, Characteristic } from "@abandonware/noble";
+import { mapValues } from "lodash";
+import * as nobleAsPromised from "../noble-as-promised";
+import state from "./parsers/state";
 
-export interface Characteristics {
-  [uuid: string]: Characteristic;
+const SERVICE_UUID = "a000";
+
+interface Specs {
+  state: Spec;
 }
 
-export interface Characteristic {
+interface Spec {
   uuid: string;
-  name: string;
-  parse: Function; // (buffer: Buffer) => parsedBuffer | string;
-  status: Status;
+  parse: (buffer: Buffer) => ParsedValue;
+  properties: Properties;
 }
 
-export interface parsedBuffer {
-  [key: string]: string;
+interface Properties {
+  read: boolean;
+  write: boolean;
+  notify: boolean;
+}
+export interface ParsedValue {
+  [name: string]: any;
 }
 
-export enum Status {
-  Done,
-  Unknown,
-  NotImplemented
+export interface CharacteristicApi {
+  read?: () => Promise<ParsedValue>;
+  write?: (data: Buffer) => Promise<void>;
+  subscribe?: (callback: (value: ParsedValue) => void) => void;
 }
 
-const characteristics: Characteristics = {
-  a001: {
-    uuid: "a001",
-    name: "version",
-    parse: version,
-    status: Status.Done
-  },
-  a002: {
+const specs: Specs = {
+  state: {
     uuid: "a002",
-    name: "state change",
-    parse: stateChange,
-    status: Status.Done
-  },
-  a003: {
-    uuid: "a003",
-    name: "unknown",
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.Unknown
-  },
-  a004: {
-    uuid: "a004",
-    name: "unknown",
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.Unknown
-  },
-  a005: {
-    uuid: "a005",
-    name: "unknown",
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.Unknown
-  },
-  a006: {
-    uuid: "a006",
-    name: "firmware write ack",
-    parse: firmwareWriteAck,
-    status: Status.Done
-  },
-  a007: {
-    uuid: "a007",
-    name: "unknown",
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.Unknown
-  },
-  a008: {
-    uuid: "a008",
-    name: "unknown",
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.Unknown
-  },
-  a009: {
-    uuid: "a009",
-    name: "map request",
-    parse: mapRequest,
-    status: Status.Done
-  },
-  a00a: {
-    uuid: "a00a",
-    name: "unknown",
-    parse: (buffer: Buffer) => buffer.toString("hex"),
-    status: Status.Unknown
-  },
-  a00b: {
-    uuid: "a00b",
-    name: "hot water / steam settings",
-    parse: hotwaterSteamSettings,
-    status: Status.Done
-  },
-  a00c: {
-    uuid: "a00c",
-    name: "shot description",
-    parse: shotDesc,
-    status: Status.Done
-  },
-  a00d: {
-    uuid: "a00d",
-    name: "shot value", // TODO Shot Value
-    parse: shotValue,
-    status: Status.Done
-  },
-  a00e: {
-    uuid: "a00e",
-    name: "state change 2???",
-    parse: stateChange,
-    status: Status.Done
-  },
-  a00f: {
-    uuid: "a00f",
-    name: "shot descripton header",
-    parse: shotDescHeader,
-    status: Status.Done
-  },
-  a010: {
-    uuid: "a010",
-    name: "shot frame",
-    parse: shotFrame,
-    status: Status.Done
-  },
-  a011: {
-    uuid: "a011",
-    name: "water level",
-    parse: waterLevel,
-    status: Status.Done
-  },
-  a012: {
-    uuid: "a012",
-    name: "calibrate",
-    parse: calibrate,
-    status: Status.Done
+    parse: state,
+    properties: { read: true, write: true, notify: true }
   }
 };
 
-export default characteristics;
+export default async function getCharacteristics(peripheral: Peripheral) {
+  const service = await nobleAsPromised.getService(peripheral, [SERVICE_UUID]);
+  const characteristics = await nobleAsPromised.getCharacteristics(service);
+  return {
+    state: apiFromSpec(specs.state, characteristics)
+  };
+}
+
+function apiFromSpec(
+  spec: Spec,
+  characteristics: Characteristic[]
+): CharacteristicApi {
+  const characteristic = characteristics.find(({ uuid }) => uuid === spec.uuid);
+  const read = readApi(spec, characteristic);
+  const write = writeApi(spec, characteristic);
+  const subscribe = subscribeApi(spec, characteristic);
+  return { read, write, subscribe };
+}
+
+function readApi(
+  { properties, parse }: Spec,
+  characteristic: Characteristic
+): () => Promise<ParsedValue> {
+  return !properties.read
+    ? undefined
+    : async () =>
+        parse(await nobleAsPromised.readCharacteristic(characteristic));
+}
+
+function writeApi(
+  { properties }: Spec,
+  characteristic: Characteristic
+): (data: Buffer) => Promise<void> {
+  return !properties.write
+    ? undefined
+    : nobleAsPromised.writeCharacteristic(characteristic);
+}
+
+function subscribeApi(spec: Spec, characteristic: Characteristic) {
+  return () => {
+    throw new Error("Not implemented yet");
+  };
+}
