@@ -11,22 +11,16 @@ const resolvers = {
   },
   Mutation: {
     async connect() {
-      if (de1.isConnected()) return "ALREADY_CONNECTED";
       await de1.connect();
-      return "CONNECTED";
     },
     async disconnect() {
-      if (!de1.isConnected()) return "ALREADY_DISCONNECTED";
       await de1.disconnect();
-      return "DISCONNECTED";
     },
-    async power(parent, { state }) {
-      if (!de1.isConnected()) {
-        await de1.connect();
-        console.log("just connected");
-      }
-      de1.power(state);
-      return true;
+    async turnOn() {
+      await de1.turnOn();
+    },
+    async turnOff() {
+      await de1.turnOff();
     }
   }
 };
@@ -36,4 +30,8 @@ const server = new GraphQLServer({
   resolvers
 });
 
-server.start(() => console.log("Server is running on http://localhost:4000"));
+server.start(async () => {
+  console.log("Server is running on http://localhost:4000");
+  await de1.connect();
+  console.log("Connected to de 1");
+});

@@ -9,6 +9,7 @@ declare module "@abandonware/noble" {
       callback: (error: Error, services: Service[]) => void
     ) => void;
     advertisement: Advertisement;
+    state: string;
   }
 
   export interface Advertisement {

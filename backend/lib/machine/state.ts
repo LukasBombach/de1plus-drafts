@@ -1,5 +1,25 @@
 export interface States {
-  [key: string]: number;
+  sleep: number;
+  goingToSleep: number;
+  idle: number;
+  busy: number;
+  espresso: number;
+  steam: number;
+  hotWater: number;
+  shortCal: number;
+  selfTest: number;
+  longCal: number;
+  descale: number;
+  fatalError: number;
+  init: number;
+  noRequest: number;
+  skipToNext: number;
+  hotWaterRinse: number;
+  steamRinse: number;
+  refill: number;
+  clean: number;
+  inBootLoader: number;
+  airPurge: number;
 }
 
 export const states: States = {
@@ -26,8 +46,8 @@ export const states: States = {
   airPurge: 0x14
 };
 
-export function getStateAsBuffer(state: string) {
-  const buffer = Buffer.alloc(8);
+/* function asBuffer(state: number) {
+  const buffer = Buffer.alloc(1);
   buffer.writeUInt8(states[state], 0);
   return buffer;
-}
+} */

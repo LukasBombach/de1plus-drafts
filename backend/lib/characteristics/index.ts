@@ -25,6 +25,7 @@ export interface ParsedValue {
 
 export interface CharacteristicApi {
   read?: () => Promise<ParsedValue>;
+  // readRaw?: () => Promise<Buffer>;
   write?: (data: Buffer) => Promise<void>;
   subscribe?: (callback: (value: ParsedValue) => void) => void;
 }
@@ -57,9 +58,10 @@ function apiFromSpec(
 ): CharacteristicApi {
   const characteristic = characteristics.find(({ uuid }) => uuid === spec.uuid);
   const read = readApi(spec, characteristic);
+  //const readRaw = readRawApi(spec, characteristic);
   const write = writeApi(spec, characteristic);
   const subscribe = subscribeApi(spec, characteristic);
-  return { read, write, subscribe };
+  return { read, /* readRaw, */ write, subscribe };
 }
 
 function readApi(
@@ -69,8 +71,17 @@ function readApi(
   return !properties.read
     ? undefined
     : async () =>
-        /* parse */ await nobleAsPromised.readCharacteristic(characteristic);
+        parse(await nobleAsPromised.readCharacteristic(characteristic));
 }
+
+/* function readRawApi(
+  { properties }: Spec,
+  characteristic: Characteristic
+): () => Promise<Buffer> {
+  return !properties.read
+    ? undefined
+    : async () => await nobleAsPromised.readCharacteristic(characteristic);
+} */
 
 function writeApi(
   { properties }: Spec,

@@ -22,42 +22,30 @@ export default class DE1 {
     return this;
   }
 
-  public isConnected(): boolean {
-    return this.peripheral !== null;
+  public async turnOn(): Promise<DE1> {
+    this.ensureConnected();
+    const currentState = await this.characteristics.state.read();
+    const newState = { state: states.idle };
+    if (currentState.state === states.sleep) {
+      await this.characteristics.state.write(newState);
+    }
+    return this;
+  }
+  public async turnOff(): Promise<DE1> {
+    this.ensureConnected();
+    const currentState = await this.characteristics.state.read();
+    const newState = { state: states.sleep };
+    if (currentState.state === states.idle) {
+      await this.characteristics.state.write(newState);
+    }
+    return this;
   }
 
-  public async power(state: boolean) {
-    const currentState = await this.characteristics.state.read();
-    const buffer = Buffer.alloc(1);
+  public isConnected(): boolean {
+    return this.peripheral !== null && this.peripheral.state === "connected";
+  }
 
-    buffer.writeUInt8(0x00, 0);
-
-    console.log("currentState", currentState);
-    console.log("buffer", buffer);
-
-    this.characteristics.state.write(buffer);
-
-    //const newState = getStateAsBuffer(state ? "idle" : "sleep");
-
-    //console.log("x", states.sleep, getStateAsBuffer("sleep"));
-    // console.log(states.idle, getStateAsBuffer("idle"));
-
-    // buffer.writeUInt8(0x00, 0);
-
-    /* console.log("target state", state);
-    console.log("current state", currentState.state);
-    console.log("sending state as buffer", newState); */
-
-    /* if (state === true && currentState.state === states.sleep) {
-      this.characteristics.state.write(getStateAsBuffer("idle"));
-    }
-
-    if (state === false && currentState.state === states.idle) {
-      this.characteristics.state.write(getStateAsBuffer("sleep"));
-    } */
-
-    // if (state.state === states.sleep) {
-    //   return this.characteristics.state.write(getStateAsBuffer("idle"));
-    // }
+  private ensureConnected(): void {
+    if (!this.isConnected()) throw new Error("Not connected to DE1");
   }
 }

@@ -1,16 +1,10 @@
 type Query {
-  connected: Boolean
+  connected: Boolean!
 }
 
 type Mutation {
-  connect: ConnetionEvent
-  disconnect: ConnetionEvent
-  power(state: Boolean!): Boolean
-}
-
-enum ConnetionEvent {
-  CONNECTED
-  DISCONNECTED
-  ALREADY_CONNECTED
-  ALREADY_DISCONNECTED
+  connect: Boolean
+  disconnect: Boolean
+  turnOn: Boolean
+  turnOff: Boolean
 }
