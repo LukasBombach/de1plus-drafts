@@ -1,40 +1,31 @@
 import { GraphQLServer } from "graphql-yoga";
-import { prisma } from "./generated/prisma-client";
-import GraphQLJSON from "graphql-type-json";
-import { Context } from "./utils";
+import DE1 from "../lib";
 
-import recordedData from "../lib/characteristics/recordedData";
-import characteristics, { Status } from "../lib/characteristics";
+const de1 = new DE1();
 
 const resolvers = {
   Query: {
-    characteristics(parent, args, context: Context) {
-      return Object.entries(recordedData)
-        .filter(isNotUnknown)
-        .map(mergeData)
-        .reduce(toObject, {});
+    connected() {
+      return de1.isConnected();
     }
   },
-  JSON: GraphQLJSON
+  Mutation: {
+    async connect() {
+      if (de1.isConnected()) return "ALREADY_CONNECTED";
+      await de1.connect();
+      return "CONNECTED";
+    },
+    async disconnect() {
+      if (!de1.isConnected()) return "ALREADY_DISCONNECTED";
+      await de1.disconnect();
+      return "DISCONNECTED";
+    }
+  }
 };
 
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
-  resolvers,
-  context: { prisma }
+  resolvers
 });
 
 server.start(() => console.log("Server is running on http://localhost:4000"));
-
-function isNotUnknown([key, val]: [string, Buffer]): boolean {
-  return characteristics[key].status !== Status.Unknown;
-}
-
-function mergeData([key, val]: [string, Buffer]): any[] {
-  return [key, characteristics[key].parse(val)];
-}
-
-function toObject(acc, [key, val]: [string, any]): any {
-  acc[key] = val;
-  return acc;
-}

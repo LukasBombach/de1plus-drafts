@@ -1,0 +1,14 @@
+{
+  "id": "bc777697cb8c4ae9928d3392d2d7f68c",
+  "uuid": "bc777697cb8c4ae9928d3392d2d7f68c",
+  "address": "ca-fd-f4-c8-7b-4e",
+  "addressType": "random",
+  "connectable": false,
+  "advertisement": {
+    "localName": "DE1",
+    "serviceUuids": ["ffff"]
+  },
+  "rssi": -87,
+  "services": null,
+  "state": "disconnected"
+}

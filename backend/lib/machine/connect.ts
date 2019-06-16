@@ -1,11 +1,16 @@
-import noble, { Peripheral } from "@abandonware/noble";
+import {
+  startScanning,
+  on,
+  stopScanning,
+  Peripheral
+} from "@abandonware/noble";
 
 export function connect(): Promise<Peripheral> {
   return new Promise((resolve, reject) => {
-    noble.startScanning();
-    noble.on("discover", (peripheral: Peripheral) => {
+    startScanning();
+    on("discover", (peripheral: Peripheral) => {
       if (/DE1/.test(peripheral.advertisement.localName)) {
-        noble.stopScanning();
+        stopScanning();
         peripheral.connect(error =>
           error ? reject(error) : resolve(peripheral)
         );

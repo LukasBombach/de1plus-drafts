@@ -1,5 +1,15 @@
-scalar JSON
-
 type Query {
-  characteristics: JSON!
+  connected: Boolean
+}
+
+type Mutation {
+  connect: ConnetionEvent
+  disconnect: ConnetionEvent
+}
+
+enum ConnetionEvent {
+  CONNECTED
+  DISCONNECTED
+  ALREADY_CONNECTED
+  ALREADY_DISCONNECTED
 }

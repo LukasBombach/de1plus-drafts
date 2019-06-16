@@ -1,0 +1,93 @@
+scalar JSON
+
+type Query {
+  bluetoothInfo: JSON!
+  characteristics: Characteristics
+}
+
+type Mutation {
+  connect: ConnetionEvent
+  disconnect: ConnetionEvent
+}
+
+enum ConnetionEvent {
+  CONNECTED
+  DISCONNECTED
+  ALREADY_CONNECTED
+  ALREADY_DISCONNECTED
+}
+
+type Characteristics {
+  version: Version
+  stateChange: StateChange
+  firmwareWriteAck: FirmwareWriteAck
+  mapRequest: MapRequest
+  hotwaterSteamSettings: HotwaterSteamSettings
+  shotDesc: ShotDesc
+  shotValue: ShotValue
+  stateChange: StateChange
+  shotDescHeader: ShotDescHeader
+  shotFrame: ShotFrame
+  waterLevel: WaterLevel
+  calibrate: Calibrate
+}
+
+type Version {
+  uuid: String
+  # ...JSON
+}
+
+type StateChange {
+  uuid: String
+  # ...JSON
+}
+
+type FirmwareWriteAck {
+  uuid: String
+  # ...JSON
+}
+
+type MapRequest {
+  uuid: String
+  # ...JSON
+}
+
+type HotwaterSteamSettings {
+  uuid: String
+  # ...JSON
+}
+
+type ShotDesc {
+  uuid: String
+  # ...JSON
+}
+
+type ShotValue {
+  uuid: String
+  # ...JSON
+}
+
+type StateChange {
+  uuid: String
+  # ...JSON
+}
+
+type ShotDescHeader {
+  uuid: String
+  # ...JSON
+}
+
+type ShotFrame {
+  uuid: String
+  # ...JSON
+}
+
+type WaterLevel {
+  uuid: String
+  # ...JSON
+}
+
+type Calibrate {
+  uuid: String
+  # ...JSON
+}
