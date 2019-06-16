@@ -1,4 +1,4 @@
-import parse, { BinaryDesc } from "./binaryParser";
+import parse, { BinaryDesc } from "../parse";
 
 // todo duplicated code at shotDesc
 function convertF817ToFloat(value: number): number {

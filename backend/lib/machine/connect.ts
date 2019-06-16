@@ -5,10 +5,6 @@ import {
   Peripheral
 } from "@abandonware/noble";
 
-function getTimeoutError(ms: number) {
-  return new Error(`Timeout: Could not find DE1 after ${ms}ms`);
-}
-
 export function connect(timeoutAfterMs: number = 1000): Promise<Peripheral> {
   return new Promise((resolve, reject) => {
     startScanning();
@@ -31,6 +27,7 @@ export function disconnect(
   timeoutAfterMs: number = 1000
 ) {
   return new Promise((resolve, reject) => {
+    if (!isConnected(peripheral)) resolve();
     const timeoutError = getTimeoutError(timeoutAfterMs);
     const timeout = setTimeout(() => reject(timeoutError), timeoutAfterMs);
     peripheral.disconnect((error: Error) => {
@@ -38,4 +35,14 @@ export function disconnect(
       return error ? reject(error) : resolve();
     });
   });
+}
+
+export function isConnected(peripheral): boolean {
+  if (typeof peripheral === "undefined") return false;
+  if (!!peripheral) return false;
+  return peripheral.state === "connected";
+}
+
+function getTimeoutError(ms: number) {
+  return new Error(`Timeout: Could not find DE1 after ${ms}ms`);
 }

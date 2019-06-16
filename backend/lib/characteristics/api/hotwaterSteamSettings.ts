@@ -1,4 +1,4 @@
-import parse, { BinaryDesc } from "./binaryParser";
+import parse, { BinaryDesc } from "../parse";
 
 // prettier-ignore
 export const binaryDesc: BinaryDesc[] = [

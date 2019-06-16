@@ -1,4 +1,4 @@
-import parse, { BinaryDesc } from "./binaryParser";
+import parse, { BinaryDesc } from "../parse";
 
 const herz = 50;
 

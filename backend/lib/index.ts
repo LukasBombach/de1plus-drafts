@@ -1,51 +1,35 @@
 import { Peripheral } from "@abandonware/noble";
-import { connect, disconnect } from "../lib/machine/connect";
-import { states } from "../lib/machine/state";
+import { connect, disconnect, isConnected } from "../lib/machine/connect";
 import { getCharacteristics, Characteristics } from "../lib/characteristics";
-import { getStateAsBuffer } from "../lib/machine/state";
 
 export default class DE1 {
   private peripheral: Peripheral = null;
   private characteristics: Characteristics = null;
 
-  public async connect(): Promise<DE1> {
-    if (this.isConnected()) return this;
+  public async connect(): Promise<void> {
+    if (isConnected(this.peripheral)) return; // todo check implicit return value of noble connect, maybe we can skip this line
     this.peripheral = await connect();
     this.characteristics = await getCharacteristics(this.peripheral);
-    return this;
   }
 
-  public async disconnect(): Promise<DE1> {
-    if (!this.isConnected()) return this;
+  public async disconnect(): Promise<void> {
+    if (isConnected(this.peripheral)) return; // todo check implicit return value of noble connect, maybe we can skip this line
     await disconnect(this.peripheral);
     this.peripheral = null;
-    return this;
+    this.characteristics = null;
   }
 
-  public async turnOn(): Promise<DE1> {
+  public async turnOn(): Promise<void> {
     this.ensureConnected();
-    const currentState = await this.characteristics.state.read();
-    const newState = { state: states.idle };
-    if (currentState.state === states.sleep) {
-      await this.characteristics.state.write(newState);
-    }
-    return this;
-  }
-  public async turnOff(): Promise<DE1> {
-    this.ensureConnected();
-    const currentState = await this.characteristics.state.read();
-    const newState = { state: states.sleep };
-    if (currentState.state === states.idle) {
-      await this.characteristics.state.write(newState);
-    }
-    return this;
+    await this.characteristics.state.write("idle");
   }
 
-  public isConnected(): boolean {
-    return this.peripheral !== null && this.peripheral.state === "connected";
+  public async turnOff(): Promise<void> {
+    this.ensureConnected();
+    await this.characteristics.state.write("sleep");
   }
 
   private ensureConnected(): void {
-    if (!this.isConnected()) throw new Error("Not connected to DE1");
+    if (!isConnected(this.peripheral)) throw new Error("Not connected to DE1");
   }
 }

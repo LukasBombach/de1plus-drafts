@@ -1,4 +1,4 @@
-import parse, { BinaryDesc } from "./binaryParser";
+import parse, { BinaryDesc } from "../parse";
 
 function convertF817ToFloat(value: number): number {
   const highBit = value & 128;
