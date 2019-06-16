@@ -1,22 +1,3 @@
-scalar JSON
-
-type Query {
-  bluetoothInfo: JSON!
-  characteristics: Characteristics
-}
-
-type Mutation {
-  connect: ConnetionEvent
-  disconnect: ConnetionEvent
-}
-
-enum ConnetionEvent {
-  CONNECTED
-  DISCONNECTED
-  ALREADY_CONNECTED
-  ALREADY_DISCONNECTED
-}
-
 type Characteristics {
   version: Version
   stateChange: StateChange
