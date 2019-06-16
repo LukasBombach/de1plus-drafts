@@ -1,13 +1,4 @@
 import parse, { BinaryDesc } from "../parse";
-import { Api } from "../characteristic";
-
-const uuid = "a002";
-
-const api: Api<State> = {
-  uuid,
-  decode,
-  encode
-};
 
 export type State =
   | "sleep"

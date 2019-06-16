@@ -3,7 +3,7 @@ import {
   Peripheral,
   Characteristic as NobleCharacteristic
 } from "@abandonware/noble";
-import * as nobleAsPromised from "../noble-as-promised";
+import * as nobleAsPromised from "../bluetooth/noble-as-promised";
 import { Api, Characteristic } from "./characteristic";
 import state, { State } from "./api/state";
 
@@ -30,10 +30,32 @@ function apiFor<T>(
   api: Api<T>,
   nobleCharacteristic: NobleCharacteristic
 ): Characteristic<T> {
-  const read = async () =>
-    nobleAsPromised.readCharacteristic(nobleCharacteristic);
-  const write = async () =>
-    nobleAsPromised.writeCharacteristic(nobleCharacteristic);
+  const { uuid } = api;
+  const read = readFromNoble<T>(api, nobleCharacteristic);
+  const write = writeToNoble<T>(api, nobleCharacteristic);
+  return { uuid, read, write };
+}
+
+function readFromNoble<T>(
+  api: Api<T>,
+  nobleCharacteristic: NobleCharacteristic
+) {
+  return async () => {
+    const buffer = await nobleAsPromised.readCharacteristic(
+      nobleCharacteristic
+    );
+    return () => api.decode(buffer);
+  };
+}
+
+function writeToNoble<T>(
+  api: Api<T>,
+  nobleCharacteristic: NobleCharacteristic
+) {
+  return async (data: T) => {
+    const buffer = api.encode(data);
+    await nobleAsPromised.writeCharacteristic(nobleCharacteristic, buffer);
+  };
 }
 
 async function getCharacteristicsFromDe1(

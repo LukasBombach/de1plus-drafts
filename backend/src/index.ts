@@ -1,5 +1,5 @@
 import { GraphQLServer } from "graphql-yoga";
-import DE1 from "../lib";
+import DE1 from "../lib/bluetooth/noble-as-promised";
 
 const de1 = new DE1();
 

@@ -5,20 +5,27 @@ import {
   Peripheral
 } from "@abandonware/noble";
 
-export function connect(timeoutAfterMs: number = 1000): Promise<Peripheral> {
+export function find(
+  name: RegExp,
+  timeoutAfterMs: number = 1000
+): Promise<Peripheral> {
   return new Promise((resolve, reject) => {
     startScanning();
     const timeoutError = getTimeoutError(timeoutAfterMs);
     const timeout = setTimeout(() => reject(timeoutError), timeoutAfterMs);
     on("discover", (peripheral: Peripheral) => {
-      if (/DE1/.test(peripheral.advertisement.localName)) {
+      if (name.test(peripheral.advertisement.localName)) {
         clearTimeout(timeout);
         stopScanning();
-        peripheral.connect(error =>
-          error ? reject(error) : resolve(peripheral)
-        );
+        resolve(peripheral);
       }
     });
+  });
+}
+
+export function connect(peripheral: Peripheral): Promise<void> {
+  return new Promise((resolve, reject) => {
+    peripheral.connect(error => (error ? reject(error) : resolve()));
   });
 }
 

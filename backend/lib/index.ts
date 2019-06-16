@@ -1,35 +1,32 @@
 import { Peripheral } from "@abandonware/noble";
-import { connect, disconnect, isConnected } from "../lib/machine/connect";
-import { getCharacteristics, Characteristics } from "../lib/characteristics";
+// import { connect, disconnect, isConnected } from "./bluetooth/connect";
+// import { getCharacteristics, Characteristics } from "./characteristics";
+
+import Device from "./bluetooth";
 
 export default class DE1 {
-  private peripheral: Peripheral = null;
-  private characteristics: Characteristics = null;
+  private device: Device = null;
+  //private characteristics: Characteristics = null;
 
   public async connect(): Promise<void> {
-    if (isConnected(this.peripheral)) return; // todo check implicit return value of noble connect, maybe we can skip this line
-    this.peripheral = await connect();
-    this.characteristics = await getCharacteristics(this.peripheral);
+    this.device = await Device.connectByName(/DE1/);
   }
 
   public async disconnect(): Promise<void> {
-    if (isConnected(this.peripheral)) return; // todo check implicit return value of noble connect, maybe we can skip this line
-    await disconnect(this.peripheral);
-    this.peripheral = null;
-    this.characteristics = null;
+    await this.device.disconnect();
   }
 
   public async turnOn(): Promise<void> {
     this.ensureConnected();
-    await this.characteristics.state.write("idle");
+    // await this.characteristics.state.write("idle");
   }
 
   public async turnOff(): Promise<void> {
     this.ensureConnected();
-    await this.characteristics.state.write("sleep");
+    // await this.characteristics.state.write("sleep");
   }
 
   private ensureConnected(): void {
-    if (!isConnected(this.peripheral)) throw new Error("Not connected to DE1");
+    if (!this.device.isConnected()) throw new Error("Not connected to DE1");
   }
 }
