@@ -37,7 +37,9 @@ export function writeCharacteristic(
 ): (data: Buffer) => Promise<void> {
   return (data: Buffer) =>
     new Promise((resolve, reject) => {
-      characteristic.write(data, true, error =>
+      console.log("low level write with", data);
+      console.log(characteristic);
+      characteristic.write(data, false, error =>
         error ? reject(error) : resolve()
       );
     });

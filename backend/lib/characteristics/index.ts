@@ -1,5 +1,4 @@
 import { Peripheral, Characteristic } from "@abandonware/noble";
-import { mapValues } from "lodash";
 import * as nobleAsPromised from "../noble-as-promised";
 import state from "./parsers/state";
 
@@ -30,6 +29,10 @@ export interface CharacteristicApi {
   subscribe?: (callback: (value: ParsedValue) => void) => void;
 }
 
+export interface Characteristics {
+  state: CharacteristicApi;
+}
+
 const specs: Specs = {
   state: {
     uuid: "a002",
@@ -38,7 +41,9 @@ const specs: Specs = {
   }
 };
 
-export default async function getCharacteristics(peripheral: Peripheral) {
+export async function getCharacteristics(
+  peripheral: Peripheral
+): Promise<Characteristics> {
   const service = await nobleAsPromised.getService(peripheral, [SERVICE_UUID]);
   const characteristics = await nobleAsPromised.getCharacteristics(service);
   return {
@@ -64,7 +69,7 @@ function readApi(
   return !properties.read
     ? undefined
     : async () =>
-        parse(await nobleAsPromised.readCharacteristic(characteristic));
+        /* parse */ await nobleAsPromised.readCharacteristic(characteristic);
 }
 
 function writeApi(

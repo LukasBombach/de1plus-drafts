@@ -1,6 +1,3 @@
-import { Peripheral } from "@abandonware/noble";
-import characteristics from "../characteristics";
-
 export interface States {
   [key: string]: number;
 }
@@ -29,8 +26,8 @@ export const states: States = {
   airPurge: 0x14
 };
 
-export async function getState(peripheral: Peripheral): number {
-  return await characteristics.stateChange.read();
+export function getStateAsBuffer(state: string) {
+  const buffer = Buffer.alloc(8);
+  buffer.writeUInt8(states[state], 0);
+  return buffer;
 }
-
-export function setState(peripheral: Peripheral): boolean {}

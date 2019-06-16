@@ -19,7 +19,7 @@ interface Obj {
 }
 
 const binDescMap: BinDescMap = {
-  char: "word8u",
+  char: "word8lu",
   int: "word32lu",
   intSigned: "word32ls",
   short: "word16bu"

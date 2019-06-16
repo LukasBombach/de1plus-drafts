@@ -1,5 +1,5 @@
 import { GraphQLServer } from "graphql-yoga";
-import DE1 from "../lib/characteristics";
+import DE1 from "../lib";
 
 const de1 = new DE1();
 
@@ -19,6 +19,14 @@ const resolvers = {
       if (!de1.isConnected()) return "ALREADY_DISCONNECTED";
       await de1.disconnect();
       return "DISCONNECTED";
+    },
+    async power(parent, { state }) {
+      if (!de1.isConnected()) {
+        await de1.connect();
+        console.log("just connected");
+      }
+      de1.power(state);
+      return true;
     }
   }
 };

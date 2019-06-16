@@ -5,6 +5,7 @@ type Query {
 type Mutation {
   connect: ConnetionEvent
   disconnect: ConnetionEvent
+  power(state: Boolean!): Boolean
 }
 
 enum ConnetionEvent {
