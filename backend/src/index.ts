@@ -6,9 +6,10 @@ const de1 = new DE1();
 
 const resolvers = {
   Query: {
-    de1() {
-      return de1;
-    }
+    state: async () => await de1.state(),
+    water: async () => await de1.water(),
+    version: async () => await de1.version(),
+    connected: async () => await de1.connected()
   },
   Mutation: {
     async connect() {
@@ -39,5 +40,5 @@ const server = new GraphQLServer({
 server.start(async () => {
   console.log("Server is running on http://localhost:4000");
   await de1.connect();
-  console.log("Connected to de 1");
+  console.log("Connected to DE1");
 });

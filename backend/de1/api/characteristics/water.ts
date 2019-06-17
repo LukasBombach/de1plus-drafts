@@ -18,10 +18,7 @@ export const binaryDesc: BinaryDesc[] = [
 ];
 
 function decode(buffer: Buffer): Water {
-  console.log(buffer);
-  const water = parse(buffer, binaryDesc) as Water;
-  console.log(water);
-  return water;
+  return parse(buffer, binaryDesc) as Water;
 }
 
 export default converter;

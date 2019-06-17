@@ -1,9 +1,10 @@
 scalar State
 
 type Query {
-  connected: Boolean!
-  state: State!
-  de1: DE1!
+  state: State
+  water: Water
+  version: Versions
+  connected: Boolean
 }
 
 type Mutation {
@@ -11,13 +12,6 @@ type Mutation {
   disconnect: Boolean
   turnOn: Boolean
   turnOff: Boolean
-}
-
-type DE1 {
-  state: State
-  water: Water
-  version: Versions
-  connected: Boolean
 }
 
 type Water {

@@ -1,7 +1,14 @@
 import React from "react";
 import { Menu } from "antd";
 
-export default ({ height = 64 }) => (
+export interface MenuProps {
+  height: number;
+}
+
+const MenuBar: React.FunctionComponent<MenuProps> = ({
+  height = 64,
+  children
+}) => (
   <Menu
     theme="dark"
     mode="horizontal"
@@ -14,8 +21,8 @@ export default ({ height = 64 }) => (
       right: "0"
     }}
   >
-    <Menu.Item key="1">nav 1</Menu.Item>
-    <Menu.Item key="2">nav 2</Menu.Item>
-    <Menu.Item key="3">nav 3</Menu.Item>
+    {children}
   </Menu>
 );
+
+export default MenuBar;
