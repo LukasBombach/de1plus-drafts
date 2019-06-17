@@ -25,4 +25,8 @@ export default class DE1 {
   public async turnOff(): Promise<void> {
     await this.characteristic.write("state", "sleep");
   }
+
+  public isConnected(): boolean {
+    return this.peripheral.isConnected();
+  }
 }

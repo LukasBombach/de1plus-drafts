@@ -1,5 +1,5 @@
 import parse, { BinaryDesc } from "../parse";
-import { Converter } from "../characteristic";
+import { Converter } from "..";
 
 const converter: Converter<State> = {
   uuid: "a002",

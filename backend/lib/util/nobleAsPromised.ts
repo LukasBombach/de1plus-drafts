@@ -1,14 +1,14 @@
 import { Peripheral, Service, Characteristic } from "@abandonware/noble";
 import timeoutAsPromised from "./timeout";
 
-export function connect(peripheral: Peripheral, timeout: number = 1000) {
+export function connect(peripheral: Peripheral, timeout?: number) {
   return Promise.race([
     connectAsPromised(peripheral),
     timeoutAsPromised("connect", timeout)
   ]);
 }
 
-export function disconnect(peripheral: Peripheral, timeout: number = 1000) {
+export function disconnect(peripheral: Peripheral, timeout?: number) {
   return Promise.race([
     disconnectAsPromised(peripheral),
     timeoutAsPromised("disconnect", timeout)

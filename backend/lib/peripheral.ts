@@ -6,13 +6,13 @@ export default class Peripheral {
   private peripheral: NoblePeripheral;
 
   // prettier-ignore
-  public async connect(name: RegExp, timeout: number = 1000): Promise<void> {
+  public async connect(name: RegExp, timeout?: number): Promise<void> {
     if (this.isConnected()) return;
-    this.peripheral = await new Scanner(name, timeout).find();
+    this.peripheral = await Scanner.findPeripheral(name, timeout);
     await connect(this.peripheral, timeout);
   }
 
-  public async disconnect(timeout: number = 1000) {
+  public async disconnect(timeout?: number) {
     if (!this.isConnected()) return;
     await disconnect(this.peripheral, timeout);
   }
