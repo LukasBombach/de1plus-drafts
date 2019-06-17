@@ -1,48 +1,29 @@
 import { Peripheral as NoblePeripheral } from "@abandonware/noble";
+import { connect, disconnect } from "./util/nobleAsPromised";
 import Scanner from "./scanner";
-import Timeout from "./timeout";
 
 export default class Peripheral {
-  private noblePeripheral: NoblePeripheral;
+  private peripheral: NoblePeripheral;
 
+  // prettier-ignore
   public async connect(name: RegExp, timeout: number = 1000): Promise<void> {
-    this.noblePeripheral = await Scanner.find(name, timeout);
-    await connectAsPromised(this.noblePeripheral, timeout);
+    if (this.isConnected()) return;
+    this.peripheral = await new Scanner(name, timeout).find();
+    await connect(this.peripheral, timeout);
   }
 
-  public async disconnect(timeoutAfterMs = 1000) {
-    await disconnectAsPromised(this.noblePeripheral, timeoutAfterMs);
+  public async disconnect(timeout: number = 1000) {
+    if (!this.isConnected()) return;
+    await disconnect(this.peripheral, timeout);
   }
 
   public isConnected(): boolean {
-    if (typeof this.noblePeripheral === "undefined") return false;
-    if (!!this.noblePeripheral) return false;
-    return this.noblePeripheral.state === "connected";
+    if (typeof this.peripheral === "undefined") return false;
+    if (!!this.peripheral) return false;
+    return this.peripheral.state === "connected";
   }
-}
 
-function connectAsPromised(
-  peripheral: NoblePeripheral,
-  timeoutAfterMs: number = 1000
-) {
-  return new Promise((resolve, reject) => {
-    const timeout = new Timeout("connect", timeoutAfterMs, reject);
-    peripheral.connect(error => {
-      timeout.stop();
-      return error ? reject(error) : resolve();
-    });
-  });
-}
-
-function disconnectAsPromised(
-  peripheral: NoblePeripheral,
-  timeoutAfterMs: number = 1000
-) {
-  return new Promise((resolve, reject) => {
-    const timeout = new Timeout("disconnect", timeoutAfterMs, reject);
-    peripheral.disconnect((error: Error) => {
-      timeout.stop();
-      return error ? reject(error) : resolve();
-    });
-  });
+  public noble(): NoblePeripheral {
+    return this.peripheral;
+  }
 }

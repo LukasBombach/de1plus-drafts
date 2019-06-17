@@ -5,38 +5,52 @@ import {
   Peripheral,
   removeAllListeners
 } from "@abandonware/noble";
-import Timeout from "./timeout";
+import timeoutAsPromised from "./util/timeout";
 
 export default class Scanner {
-  public async find(name: RegExp, timeoutAfter: number): Promise<Peripheral> {
-    startScanning();
+  private name: RegExp;
+  private timeout: number;
+
+  constructor(name: RegExp, timeout: number) {
+    this.name = name;
+    this.timeout = timeout;
+  }
+
+  public async find(): Promise<Peripheral> {
     try {
-      const peripheral = await this.discover(name, timeoutAfter);
+      startScanning();
+      return await this.discover();
+    } finally {
       stopScanning();
-      return peripheral;
-    } catch (err) {
-      stopScanning();
-      throw err;
     }
   }
 
-  private discover(name: RegExp, timeoutAfter: number): Promise<Peripheral> {
-    return new Promise((resolve, reject) => {
-      const timeout = new Timeout("find DE1", timeoutAfter, err => {
-        removeAllListeners("discover");
-        reject(err);
-      });
-      on("discover", (peripheral: Peripheral) => {
-        if (this.matches(name, peripheral)) {
-          removeAllListeners("discover");
-          timeout.stop();
-          resolve(peripheral);
-        }
-      });
+  async discover(): Promise<Peripheral> {
+    try {
+      return this.discoverWithTimeout();
+    } finally {
+      removeAllListeners("discover");
+    }
+  }
+
+  async discoverWithTimeout(): Promise<Peripheral> {
+    return (await Promise.race([
+      this.resolveWhenDiscovered(),
+      this.rejectAftertimeout()
+    ])) as Peripheral;
+  }
+
+  async resolveWhenDiscovered() {
+    return new Promise(resolve => {
+      on("discover", (p: Peripheral) => (this.matches(p) ? resolve(p) : null));
     });
   }
 
-  private matches(name: RegExp, peripheral: Peripheral): boolean {
-    return name.test(peripheral.advertisement.localName);
+  rejectAftertimeout(): Promise<void> {
+    return timeoutAsPromised("find DE1", this.timeout);
+  }
+
+  matches(peripheral: Peripheral) {
+    return this.name.test(peripheral.advertisement.localName);
   }
 }

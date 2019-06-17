@@ -1,5 +1,11 @@
 import { keyBy } from "lodash";
-import { Service as NobleService, Characteristic } from "@abandonware/noble";
+import { Characteristic } from "@abandonware/noble";
+import {
+  getService,
+  getCharacteristics,
+  read,
+  write
+} from "./util/nobleAsPromised";
 import Peripheral from "./peripheral";
 
 interface Characteristics {
@@ -24,42 +30,19 @@ export default class Service {
   }
 
   private async load(uuid: string): Promise<void> {
-    const service = await this.getService(uuid);
-    const characteristics = await this.getCharacteristics(service);
+    const service = await getService(this.peripheral.noble(), uuid);
+    const characteristics = await getCharacteristics(service);
     this.characteristics = keyBy(characteristics, "uuid");
   }
 
   public async read(uuid: string): Promise<Buffer> {
-    return new Promise((res, rej) => {
-      this.ensureLoaded();
-      const characteristic = this.characteristics[uuid];
-      characteristic.read((err, data) => (err ? rej(err) : res(data)));
-    });
+    this.ensureLoaded();
+    return read(this.characteristics[uuid]);
   }
 
-  public async write(uuid: string, value: Buffer): Promise<void> {
-    return new Promise((res, rej) => {
-      this.ensureLoaded();
-      const characteristic = this.characteristics[uuid];
-      characteristic.write(value, false, err => (err ? rej(err) : res()));
-    });
-  }
-
-  private getService(uuid: string): Promise<NobleService> {
-    return new Promise((resolve, reject) => {
-      const peripheral = this.peripheral.getPeripheral();
-      peripheral.discoverServices([uuid], (error, [service]) =>
-        error ? reject(error) : resolve(service)
-      );
-    });
-  }
-
-  private getCharacteristics(service: NobleService): Promise<Characteristic[]> {
-    return new Promise((resolve, reject) => {
-      service.discoverCharacteristics([], (error, characteristics) =>
-        error ? reject(error) : resolve(characteristics)
-      );
-    });
+  public async write(uuid: string, buffer: Buffer): Promise<void> {
+    this.ensureLoaded();
+    return write(this.characteristics[uuid], buffer);
   }
 
   private ensureLoaded(): void {

@@ -86,3 +86,26 @@ interface CharacteristicApi<T> {
       reject();
     });
   } */
+
+/* private async discover(name: RegExp, ms: number): Promise<Peripheral> {
+    return (await Promise.race([
+      this.discoverAsPromised(name),
+      this.timeout(ms)
+    ])) as Peripheral;
+  }
+
+  private discoverAsPromised(name: RegExp): Promise<Peripheral> {
+    return new Promise(resolve => {
+      on("discover", (peripheral: Peripheral) => {
+        if (this.matches(name, peripheral)) resolve(peripheral);
+      });
+    });
+  } */
+
+/* private timeout(timeoutAfter: number): Promise<void> {
+    return timeoutAsPromised("find DE1", timeoutAfter);
+  }
+
+  private matches(name: RegExp, peripheral: Peripheral): boolean {
+    return name.test(peripheral.advertisement.localName);
+  } */
