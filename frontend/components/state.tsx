@@ -28,21 +28,10 @@ interface DE1 {
 export default function State() {
   return (
     <Query query={stateQuery}>
-      {({
-        loading,
-        error,
-        data: {
-          de1: { connected, state }
-        }
-      }: StateQueryResult) => {
+      {({ loading, error, data }: StateQueryResult) => {
         if (error) return <pre>Error</pre>;
         if (loading) return <pre>Loading</pre>;
-
-        return (
-          <pre>
-            Connected: {connected.toString()}, State: {state}
-          </pre>
-        );
+        return <pre>de1: {JSON.stringify(data.de1, null, 2)}</pre>;
       }}
     </Query>
   );
