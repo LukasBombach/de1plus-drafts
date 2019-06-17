@@ -38,6 +38,7 @@ declare module "@abandonware/noble" {
   export function startScanning(): void;
   export function stopScanning(): void;
   export function on(eventName: string, callback: Function): void;
+  export function removeAllListeners(eventName: string): void;
   // }
 
   //export default Noble;

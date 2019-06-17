@@ -55,3 +55,34 @@ interface CharacteristicApi<T> {
   write?: (value: T) => Promise<void>;
   subscribe?: (callback: (value: T) => void) => void;
 } */
+
+/* public static find(name: RegExp, timeoutAfter: number): Promise<Peripheral> {
+    return new Promise((resolve, reject) => {
+      startScanning();
+      const timeout = Scanner.getTimeout(reject, timeoutAfter);
+      Scanner.search(name, resolve, timeout);
+    });
+  } */
+
+//timeout = new Timeout("find DE1", timeoutAfter, reject);
+//
+
+/* private static checkPeripheral(peripheral, resolve, timeout) {
+    return Scanner.matches(name, peripheral) ? resolve() : reject()
+  } */
+
+/* private static search(name: RegExp, onFind: Function, timeout: Timeout) {
+    on("discover", peripheral => {
+      if (!Scanner.matches(name, peripheral)) return;
+      timeout.stop();
+      stopScanning();
+      onFind(peripheral);
+    });
+  }
+
+  private static getTimeout(reject: Function, timeoutAfter: number = 1000) {
+    return new Timeout("find DE1", timeoutAfter, () => {
+      stopScanning();
+      reject();
+    });
+  } */

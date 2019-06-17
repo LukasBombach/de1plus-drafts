@@ -1,5 +1,5 @@
 import Service from "./service";
-import { Api } from "./api/characteristic";
+import { Api } from "./api";
 import Peripheral from "./peripheral";
 
 export default class Characteristic {
@@ -17,7 +17,7 @@ export default class Characteristic {
     this.api = api;
   }
 
-  public async read(name: string, value: any): Promise<any> {
+  public async read(name: string): Promise<any> {
     this.ensureConnected();
     const { uuid, decode } = this.api[name];
     const buffer = await this.service.read(uuid);

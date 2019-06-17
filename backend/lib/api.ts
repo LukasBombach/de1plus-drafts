@@ -1,7 +1,7 @@
 import state, { State } from "./api/characteristics/state";
 import { Converter } from "./api/characteristic";
 
-interface Api {
+export interface Api {
   state: Converter<State>;
 }
 
