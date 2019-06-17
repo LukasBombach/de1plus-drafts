@@ -22,6 +22,8 @@ export default class DE1 {
   }
 
   public async turnOn(): Promise<void> {
+    const state = await this.characteristic.read("state");
+    if (state !== "sleep") return;
     await this.characteristic.write("state", "idle");
   }
 
