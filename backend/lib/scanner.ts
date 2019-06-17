@@ -16,7 +16,7 @@ export default class Scanner {
     return scanner.find();
   }
 
-  private constructor(name: RegExp, timeout: number) {
+  private constructor(name: RegExp, timeout: number = 5000) {
     this.name = name;
     this.timeout = timeout;
   }
@@ -32,7 +32,7 @@ export default class Scanner {
 
   private async discover(): Promise<Peripheral> {
     try {
-      return this.discoverWithTimeout();
+      return await this.discoverWithTimeout();
     } finally {
       removeAllListeners("discover");
     }
@@ -47,7 +47,9 @@ export default class Scanner {
 
   private async resolveWhenDiscovered() {
     return new Promise(resolve => {
-      on("discover", (p: Peripheral) => (this.matches(p) ? resolve(p) : null));
+      on("discover", (p: Peripheral) => {
+        return this.matches(p) ? resolve(p) : null;
+      });
     });
   }
 

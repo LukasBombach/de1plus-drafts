@@ -12,6 +12,7 @@ export default class Characteristic {
   }
 
   public async mapApiToService(api: Api, uuid: string): Promise<void> {
+    debugger;
     this.ensureConnected();
     this.service = await Service.load(this.peripheral, uuid);
     this.api = api;

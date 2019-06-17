@@ -19,7 +19,7 @@ export default class Peripheral {
 
   public isConnected(): boolean {
     if (typeof this.peripheral === "undefined") return false;
-    if (!!this.peripheral) return false;
+    if (this.peripheral === null) return false;
     return this.peripheral.state === "connected";
   }
 

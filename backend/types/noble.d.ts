@@ -10,6 +10,7 @@ declare module "@abandonware/noble" {
     ) => void;
     advertisement: Advertisement;
     state: string;
+    uuid: string;
   }
 
   export interface Advertisement {

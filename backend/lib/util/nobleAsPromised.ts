@@ -53,7 +53,7 @@ export function write(
 
 function connectAsPromised(peripheral: Peripheral): Promise<Peripheral> {
   return new Promise((resolve, reject) =>
-    peripheral.connect(error => (error ? reject(error) : resolve()))
+    peripheral.connect(error => (error ? reject(error) : resolve(peripheral)))
   );
 }
 

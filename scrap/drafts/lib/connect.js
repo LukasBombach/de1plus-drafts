@@ -9,6 +9,8 @@ module.exports.connect = async function() {
         peripheral.connect(error =>
           error ? reject(error) : resolve(peripheral)
         );
+      } else {
+        console.log("found", peripheral.uuid);
       }
     });
   });
