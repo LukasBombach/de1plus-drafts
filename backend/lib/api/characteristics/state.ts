@@ -1,4 +1,11 @@
 import parse, { BinaryDesc } from "../parse";
+import { Converter } from "../characteristic";
+
+const converter: Converter<State> = {
+  uuid: "a002",
+  decode,
+  encode
+};
 
 export type State =
   | "sleep"
@@ -77,4 +84,4 @@ function ensure(val: any, msg: string): void {
   if (typeof val === "undefined") new Error(msg);
 }
 
-export default api;
+export default converter;

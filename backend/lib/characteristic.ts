@@ -1,5 +1,5 @@
 import Service from "./service";
-import { Api } from "./characteristics/characteristic";
+import { Api } from "./api/characteristic";
 import Peripheral from "./peripheral";
 
 export default class Characteristic {
@@ -7,11 +7,11 @@ export default class Characteristic {
   private service: Service;
   private api: Api;
 
-  constructor(device: Peripheral) {
-    this.peripheral = device;
+  constructor(peripheral: Peripheral) {
+    this.peripheral = peripheral;
   }
 
-  public async mapService(api: Api, uuid: string): Promise<void> {
+  public async mapApiToService(api: Api, uuid: string): Promise<void> {
     this.ensureConnected();
     this.service = await Service.load(this.peripheral, uuid);
     this.api = api;

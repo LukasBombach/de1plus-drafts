@@ -1,4 +1,4 @@
-import state from "./api/state";
+import state from "./characteristics/state";
 
 export default {
   state: {

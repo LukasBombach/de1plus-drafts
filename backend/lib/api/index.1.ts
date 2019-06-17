@@ -1,6 +1,6 @@
 import { Peripheral, Characteristic } from "@abandonware/noble";
 import * as nobleAsPromised from "../bluetooth/noble-as-promised";
-import state from "./api/state";
+import state from "./characteristics/state";
 
 const SERVICE_UUID = "a000";
 
