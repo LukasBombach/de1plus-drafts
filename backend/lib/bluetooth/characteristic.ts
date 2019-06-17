@@ -7,22 +7,28 @@ export default class Characteristic {
   private service: Service;
   private api: Api;
 
-  constructor(device: Device, api: Api) {
+  constructor(device: Device) {
     this.device = device;
-    this.api = api;
   }
 
-  public async loadService(uuid: string): Promise<void> {
+  public async loadService(uuid: string, api: Api): Promise<void> {
     this.ensureConnected();
     this.service = await Service.load(this.device, uuid);
+    this.api = api;
   }
 
   public async read(name: string, value: any): Promise<any> {
     this.ensureConnected();
+    const { uuid, decode } = this.api[name];
+    const buffer = await this.service.read(uuid);
+    return decode(buffer);
   }
 
   public async write(name: string, value: any): Promise<void> {
     this.ensureConnected();
+    const { uuid, encode } = this.api[name];
+    const buffer = encode(value);
+    return await this.service.write(uuid, buffer);
   }
 
   private ensureConnected(): void {

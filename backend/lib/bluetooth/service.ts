@@ -26,12 +26,20 @@ export default class Service {
     this.characteristics = keyBy(characteristics, "uuid");
   }
 
-  public async read(uuid: string): Promise<any> {
-    this.ensureLoaded();
+  public async read(uuid: string): Promise<Buffer> {
+    return new Promise((res, rej) => {
+      this.ensureLoaded();
+      const characteristic = this.characteristics[uuid];
+      characteristic.read((err, data) => (err ? rej(err) : res(data)));
+    });
   }
 
-  public async write(value: any): Promise<void> {
-    this.ensureLoaded();
+  public async write(uuid: string, value: Buffer): Promise<void> {
+    return new Promise((res, rej) => {
+      this.ensureLoaded();
+      const characteristic = this.characteristics[uuid];
+      characteristic.write(value, false, err => (err ? rej(err) : res()));
+    });
   }
 
   private getService(uuid: string): Promise<NobleService> {
