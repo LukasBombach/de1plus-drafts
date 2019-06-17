@@ -29,6 +29,10 @@ export default class DE1 {
     await this.characteristic.write("state", "sleep");
   }
 
+  public connected(): boolean {
+    return this.peripheral.isConnected();
+  }
+
   public async state(): Promise<State> {
     return await this.characteristic.read("state");
   }
@@ -39,9 +43,5 @@ export default class DE1 {
 
   public async version(): Promise<Versions> {
     return await this.characteristic.read("version");
-  }
-
-  public connected(): boolean {
-    return this.peripheral.isConnected();
   }
 }
