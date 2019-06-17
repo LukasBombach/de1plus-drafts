@@ -1,5 +1,8 @@
+scalar State
+
 type Query {
   connected: Boolean!
+  state: State!
 }
 
 type Mutation {

@@ -1,5 +1,5 @@
 import parse, { BinaryDesc } from "../parse";
-import { Converter } from "..";
+import { Converter } from "../../api";
 
 const converter: Converter<State> = {
   uuid: "a002",
@@ -30,7 +30,7 @@ export type State =
   | "inBootLoader"
   | "airPurge";
 
-const states = {
+export const states = {
   sleep: 0x00,
   goingToSleep: 0x01,
   idle: 0x02,
@@ -75,7 +75,7 @@ function encode(newState: State): Buffer {
   return buffer;
 }
 
-function stateAsStringForValue(state: number): State {
+export function stateAsStringForValue(state: number): State {
   const keys = Object.keys(states);
   return keys.find(key => states[key] === state) as State;
 }

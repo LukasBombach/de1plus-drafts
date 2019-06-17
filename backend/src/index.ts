@@ -1,5 +1,6 @@
 import { GraphQLServer } from "graphql-yoga";
-import DE1 from "../lib";
+import DE1 from "../de1";
+import StateSkalar from "../de1-graphql/scalars/state";
 
 const de1 = new DE1();
 
@@ -7,22 +8,30 @@ const resolvers = {
   Query: {
     connected() {
       return de1.isConnected();
+    },
+    async state() {
+      return await de1.getState();
     }
   },
   Mutation: {
     async connect() {
       await de1.connect();
+      return true;
     },
     async disconnect() {
       await de1.disconnect();
+      return true;
     },
     async turnOn() {
       await de1.turnOn();
+      return true;
     },
     async turnOff() {
       await de1.turnOff();
+      return true;
     }
-  }
+  },
+  State: StateSkalar
 };
 
 const server = new GraphQLServer({
