@@ -1,4 +1,23 @@
 import parse, { BinaryDesc } from "../parse";
+import { Converter } from "..";
+
+const converter: Converter<Versions> = {
+  uuid: "a011",
+  decode
+};
+
+export interface Versions {
+  bluetooth: Version;
+  firmware: Version;
+}
+
+export interface Version {
+  apiVersion: number;
+  release: number;
+  commits: number;
+  changes: number;
+  sha: string;
+}
 
 // prettier-ignore
 export const binaryDesc: BinaryDesc[] = [
@@ -14,10 +33,12 @@ export const binaryDesc: BinaryDesc[] = [
   { name: "firmware.sha", type:"int", process: convertToHex },
 ];
 
-export default (buffer: Buffer) => {
-  return parse(buffer, binaryDesc);
-};
+export function decode(buffer: Buffer): Versions {
+  return parse(buffer, binaryDesc) as Versions;
+}
 
 function convertToHex(val: number | object): string {
   return typeof val === "object" ? "0" : val.toString(16);
 }
+
+export default converter;

@@ -1,4 +1,6 @@
 import state, { State } from "./characteristics/state";
+import water, { Water } from "./characteristics/water";
+import version, { Versions } from "./characteristics/version";
 
 export interface Converter<T> {
   uuid: string;
@@ -13,8 +15,10 @@ export type Notifier<T> = (callback: (data: T) => void) => void;
 
 export interface Api {
   state: Converter<State>;
+  water: Converter<Water>;
+  version: Converter<Versions>;
 }
 
-const api: Api = { state };
+const api: Api = { state, water, version };
 
 export default api;

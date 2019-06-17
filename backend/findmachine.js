@@ -31,19 +31,19 @@ const disconnect = async function disconnectDe1(peripheral) {
       console.log("discovered the following services:");
       for (var i in services) {
         console.log("found service", services[i].uuid);
-        /* services[i].discoverCharacteristics(null, function(
+        services[i].discoverCharacteristics(null, function(
           error,
           characteristics
         ) {
           console.log("discovered the following characteristics:");
           characteristics.forEach(c => {
-            console.log(c.uuid, c.properties);
+            c.read((error, buffer) => console.log(c.uuid, buffer));
           });
-        }); */
+        });
       }
-      await disconnect(de1);
-      console.log("disconnected!");
-      process.exit(0);
+      //await disconnect(de1);
+      //console.log("disconnected!");
+      //process.exit(0);
     });
   } catch (err) {
     console.log("An error occurred");

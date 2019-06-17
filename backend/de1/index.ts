@@ -2,6 +2,8 @@ import Peripheral from "./peripheral";
 import Characteristic from "./characteristic";
 import api from "./api";
 import { State } from "./api/characteristics/state";
+import { Water } from "./api/characteristics/water";
+import { Versions } from "./api/characteristics/version";
 
 const DE1_NAME = /DE1/;
 const SERVICE_UUID = "a000";
@@ -27,11 +29,19 @@ export default class DE1 {
     await this.characteristic.write("state", "sleep");
   }
 
-  public async getState(): Promise<State> {
+  public async state(): Promise<State> {
     return await this.characteristic.read("state");
   }
 
-  public isConnected(): boolean {
+  public async water(): Promise<Water> {
+    return await this.characteristic.read("water");
+  }
+
+  public async version(): Promise<Versions> {
+    return await this.characteristic.read("version");
+  }
+
+  public connected(): boolean {
     return this.peripheral.isConnected();
   }
 }

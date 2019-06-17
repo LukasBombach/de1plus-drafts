@@ -6,11 +6,8 @@ const de1 = new DE1();
 
 const resolvers = {
   Query: {
-    connected() {
-      return de1.isConnected();
-    },
-    async state() {
-      return await de1.getState();
+    de1() {
+      return de1;
     }
   },
   Mutation: {
