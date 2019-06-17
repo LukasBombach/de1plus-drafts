@@ -1,15 +1,14 @@
-import { Peripheral } from "@abandonware/noble";
-// import { connect, disconnect, isConnected } from "./bluetooth/connect";
-// import { getCharacteristics, Characteristics } from "./characteristics";
+import { Device, Characteristic } from "./bluetooth";
 
-import Device from "./bluetooth";
+const SERVICE_UUID = "a000";
 
 export default class DE1 {
-  private device: Device = null;
-  //private characteristics: Characteristics = null;
+  private device: Device = new Device();
+  private characteristic: Characteristic = new Characteristic(this.device, api);
 
   public async connect(): Promise<void> {
-    this.device = await Device.connectByName(/DE1/);
+    await this.device.connect(/DE1/);
+    await this.characteristic.loadService(SERVICE_UUID);
   }
 
   public async disconnect(): Promise<void> {
@@ -17,16 +16,10 @@ export default class DE1 {
   }
 
   public async turnOn(): Promise<void> {
-    this.ensureConnected();
-    // await this.characteristics.state.write("idle");
+    await this.characteristic.write("state", "idle");
   }
 
   public async turnOff(): Promise<void> {
-    this.ensureConnected();
-    // await this.characteristics.state.write("sleep");
-  }
-
-  private ensureConnected(): void {
-    if (!this.device.isConnected()) throw new Error("Not connected to DE1");
+    await this.characteristic.write("state", "sleep");
   }
 }

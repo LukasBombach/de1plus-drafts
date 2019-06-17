@@ -1,6 +1,20 @@
 import { Peripheral, Service, Characteristic } from "@abandonware/noble";
+import { keyBy } from "lodash";
 
-export function getService(
+export interface Characteristics {
+  [uuid: string]: Characteristic;
+}
+
+export async function getCharacteristics(
+  peripheral: Peripheral,
+  uuid: string
+): Promise<Characteristics> {
+  const service = await getService(peripheral, [uuid]);
+  const characteristics = await getCharacteristicsAsArray(service);
+  return keyBy(characteristics, "uuid");
+}
+
+function getService(
   peripheral: Peripheral,
   uuids: string[] = []
 ): Promise<Service> {
@@ -11,7 +25,7 @@ export function getService(
   });
 }
 
-export function getCharacteristics(
+function getCharacteristicsAsArray(
   service: Service,
   uuids: string[] = []
 ): Promise<Characteristic[]> {

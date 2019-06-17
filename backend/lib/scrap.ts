@@ -32,3 +32,26 @@
 
     this.characteristics.state.write(buffer);
   } */
+
+/* public static async connectByName(matcher: RegExp, timeoutAfterMs?: number) {
+    const peripheral = await find(matcher, timeoutAfterMs);
+    const device = new Device(peripheral);
+    await device.connect();
+    return device;
+  }
+
+  constructor(peripheral: Peripheral) {
+    this.peripheral = peripheral;
+  } */
+
+/* type CharacteristicTypes = any;
+
+interface Characteristics {
+  [name: string]: CharacteristicApi<CharacteristicTypes>;
+}
+
+interface CharacteristicApi<T> {
+  read?: () => Promise<T>;
+  write?: (value: T) => Promise<void>;
+  subscribe?: (callback: (value: T) => void) => void;
+} */

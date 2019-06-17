@@ -6,7 +6,11 @@ export type Reader<T> = () => T;
 export type Writer<T> = (data: T) => void;
 export type Subscriber<T> = (callback: (data: T) => void) => void;
 
-export interface Api<T> {
+export interface Api {
+  [name: string]: Converter<any>;
+}
+
+export interface Converter<T> {
   uuid: string;
   decode?: Decoder<T>;
   encode?: Encoder<T>;
