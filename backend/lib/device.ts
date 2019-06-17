@@ -1,5 +1,5 @@
 import { Peripheral } from "@abandonware/noble";
-import { find, connect, disconnect, isConnected } from "./connect";
+import { find, connect, disconnect, isConnected } from "./peripheral";
 
 export default class Device {
   private peripheral: Peripheral;

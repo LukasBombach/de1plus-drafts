@@ -1,5 +1,5 @@
-import { Device, Characteristic } from "./bluetooth";
-import api from "./api";
+import { Device, Characteristic } from "./scrap";
+import apiSpec from "./api";
 
 const SERVICE_UUID = "a000";
 
@@ -9,7 +9,7 @@ export default class DE1 {
 
   public async connect(): Promise<void> {
     await this.device.connect(/DE1/);
-    await this.characteristic.loadService(SERVICE_UUID, api);
+    await this.characteristic.loadService(SERVICE_UUID, apiSpec);
   }
 
   public async disconnect(): Promise<void> {

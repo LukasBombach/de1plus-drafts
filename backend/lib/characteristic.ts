@@ -1,5 +1,5 @@
 import Service from "./service";
-import { Api } from "../characteristics/characteristic";
+import { Api } from "./characteristics/characteristic";
 import Device from "./device";
 
 export default class Characteristic {
