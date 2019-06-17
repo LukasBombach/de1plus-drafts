@@ -2,7 +2,7 @@ import parse, { BinaryDesc } from "../parse";
 import { Converter } from "../../api";
 
 const converter: Converter<State> = {
-  uuid: "a002",
+  uuid: "a003",
   decode,
   encode
 };
