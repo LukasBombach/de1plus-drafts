@@ -1,22 +1,22 @@
 import { Peripheral } from "@abandonware/noble";
-import { find, connect, disconnect, isConnected } from "./peripheral";
+import Peripheral from "./peripheral";
 
 export default class Device {
   private peripheral: Peripheral;
 
   public async connect(name: RegExp, timeoutAfterMs?: number): Promise<void> {
-    if (isConnected(this.peripheral)) return;
-    this.peripheral = await find(name, timeoutAfterMs);
+    if (Peripheral.isConnected(this.peripheral)) return;
+    this.peripheral = await Peripheral.find(name, timeoutAfterMs);
     await connect(this.peripheral);
   }
 
   public async disconnect(): Promise<void> {
-    if (!isConnected(this.peripheral)) return;
+    if (!Peripheral.isConnected(this.peripheral)) return;
     await disconnect(this.peripheral);
   }
 
   public isConnected(): boolean {
-    return isConnected(this.peripheral);
+    return Peripheral.isConnected(this.peripheral);
   }
 
   public getPeripheral(): Peripheral {

@@ -1,19 +1,20 @@
-import { Device, Characteristic } from "./scrap";
-import apiSpec from "./api";
+import Peripheral from "./peripheral";
+import Characteristic from "./characteristic";
+import api from "./api";
 
 const SERVICE_UUID = "a000";
 
 export default class DE1 {
-  private device: Device = new Device();
-  private characteristic: Characteristic = new Characteristic(this.device);
+  private peripheral: Peripheral = new Peripheral();
+  private characteristic: Characteristic = new Characteristic(peripheral);
 
   public async connect(): Promise<void> {
-    await this.device.connect(/DE1/);
-    await this.characteristic.loadService(SERVICE_UUID, apiSpec);
+    await this.peripheral.connect(/DE1/);
+    await this.characteristic.mapService(api, SERVICE_UUID);
   }
 
   public async disconnect(): Promise<void> {
-    await this.device.disconnect();
+    await this.peripheral.disconnect();
   }
 
   public async turnOn(): Promise<void> {

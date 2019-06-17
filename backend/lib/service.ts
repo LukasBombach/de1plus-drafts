@@ -1,23 +1,26 @@
 import { keyBy } from "lodash";
 import { Service as NobleService, Characteristic } from "@abandonware/noble";
-import Device from "./device";
+import Peripheral from "./peripheral";
 
 interface Characteristics {
   [uuid: string]: Characteristic;
 }
 
 export default class Service {
-  private device: Device;
+  private peripheral: Peripheral;
   private characteristics: Characteristics;
 
-  public static async load(device: Device, uuid: string): Promise<Service> {
-    const service = new Service(device);
+  public static async load(
+    peripheral: Peripheral,
+    uuid: string
+  ): Promise<Service> {
+    const service = new Service(peripheral);
     await service.load(uuid);
     return service;
   }
 
-  private constructor(device: Device) {
-    this.device = device;
+  private constructor(peripheral: Peripheral) {
+    this.peripheral = peripheral;
   }
 
   private async load(uuid: string): Promise<void> {
@@ -44,7 +47,7 @@ export default class Service {
 
   private getService(uuid: string): Promise<NobleService> {
     return new Promise((resolve, reject) => {
-      const peripheral = this.device.getPeripheral();
+      const peripheral = this.peripheral.getPeripheral();
       peripheral.discoverServices([uuid], (error, [service]) =>
         error ? reject(error) : resolve(service)
       );

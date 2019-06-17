@@ -1,51 +1,48 @@
-import {
-  startScanning,
-  on,
-  stopScanning,
-  Peripheral as NoblePeripheral
-} from "@abandonware/noble";
+import { Peripheral as NoblePeripheral } from "@abandonware/noble";
 import Scanner from "./scanner";
+import Timeout from "./timeout";
 
 export default class Peripheral {
-  private peripheral: NoblePeripheral;
+  private noblePeripheral: NoblePeripheral;
 
-  public static async find(
-    name: RegExp,
-    timeoutAfterMs: number = 1000
-  ): Promise<Peripheral> {
-    const peripheral = await Scanner.find(name, timeoutAfterMs);
-    return new Peripheral(peripheral);
+  public async connect(name: RegExp, timeout: number = 1000): Promise<void> {
+    this.noblePeripheral = await Scanner.find(name, timeout);
+    await connectAsPromised(this.noblePeripheral, timeout);
   }
 
-  private constructor(peripheral: NoblePeripheral) {
-    this.peripheral = peripheral;
+  public async disconnect(timeoutAfterMs = 1000) {
+    await disconnectAsPromised(this.noblePeripheral, timeoutAfterMs);
   }
 
-  public connect(timeoutAfterMs: number = 1000): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (this.isConnected(this.peripheral)) resolve();
-      const timeout = new Timeout("connect", timeoutAfterMs, reject);
-      this.peripheral.connect(error => {
-        timeout.stop();
-        return error ? reject(error) : resolve();
-      });
+  public isConnected(): boolean {
+    if (typeof this.noblePeripheral === "undefined") return false;
+    if (!!this.noblePeripheral) return false;
+    return this.noblePeripheral.state === "connected";
+  }
+}
+
+function connectAsPromised(
+  peripheral: NoblePeripheral,
+  timeoutAfterMs: number = 1000
+) {
+  return new Promise((resolve, reject) => {
+    const timeout = new Timeout("connect", timeoutAfterMs, reject);
+    peripheral.connect(error => {
+      timeout.stop();
+      return error ? reject(error) : resolve();
     });
-  }
+  });
+}
 
-  public disconnect(timeoutAfterMs: number = 1000) {
-    return new Promise((resolve, reject) => {
-      if (!this.isConnected(this.peripheral)) resolve();
-      const timeout = new Timeout("connect", timeoutAfterMs, reject);
-      this.peripheral.disconnect((error: Error) => {
-        timeout.stop();
-        return error ? reject(error) : resolve();
-      });
+function disconnectAsPromised(
+  peripheral: NoblePeripheral,
+  timeoutAfterMs: number = 1000
+) {
+  return new Promise((resolve, reject) => {
+    const timeout = new Timeout("disconnect", timeoutAfterMs, reject);
+    peripheral.disconnect((error: Error) => {
+      timeout.stop();
+      return error ? reject(error) : resolve();
     });
-  }
-
-  public isConnected(peripheral): boolean {
-    if (typeof peripheral === "undefined") return false;
-    if (!!peripheral) return false;
-    return this.peripheral.state === "connected";
-  }
+  });
 }

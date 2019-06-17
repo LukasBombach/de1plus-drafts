@@ -1,19 +1,19 @@
 import Service from "./service";
 import { Api } from "./characteristics/characteristic";
-import Device from "./device";
+import Peripheral from "./peripheral";
 
 export default class Characteristic {
-  private device: Device;
+  private peripheral: Peripheral;
   private service: Service;
   private api: Api;
 
-  constructor(device: Device) {
-    this.device = device;
+  constructor(device: Peripheral) {
+    this.peripheral = device;
   }
 
-  public async loadService(uuid: string, api: Api): Promise<void> {
+  public async mapService(api: Api, uuid: string): Promise<void> {
     this.ensureConnected();
-    this.service = await Service.load(this.device, uuid);
+    this.service = await Service.load(this.peripheral, uuid);
     this.api = api;
   }
 
@@ -32,6 +32,6 @@ export default class Characteristic {
   }
 
   private ensureConnected(): void {
-    if (!this.device.isConnected()) throw new Error("Not connected to DE1");
+    if (!this.peripheral.isConnected()) throw new Error("Not connected to DE1");
   }
 }
