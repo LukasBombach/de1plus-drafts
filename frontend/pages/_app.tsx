@@ -2,7 +2,7 @@ import React from "react";
 import { ApolloProvider } from "react-apollo";
 import App, { Container } from "next/app";
 import withApolloClient from "../lib/with-apollo-client";
-import "antd/dist/antd.css";
+import "../theme/index.less";
 
 class MyApp extends App {
   render() {
