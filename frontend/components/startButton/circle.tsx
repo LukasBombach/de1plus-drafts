@@ -17,9 +17,10 @@ const SizeWrapper = styled.div`
 const RoundEl = styled.a`
   display: block;
   width: 100%;
-  padding-top: calc(100% - 10px);
+  padding-top: calc(100%);
   border-radius: 50%;
-  border: 5px solid rgba(24, 144, 255, 0.2);
+  box-shadow: 0 0 0 1px rgba(24, 144, 255, 0.4),
+    0 0 0 12px rgba(24, 144, 255, 0.2);
   background: #fff;
   position: relative;
 `;

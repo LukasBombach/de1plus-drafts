@@ -1,32 +1,14 @@
-import { Layout, Row, Col } from "antd";
-
-import Navigation from "../components/navigation";
+import { Row, Col } from "antd";
 import StartButton from "../components/startButton";
 
-const { Content, Sider } = Layout;
-
-const goldenRatio = "28%";
-const menuHeight = 96;
-const contentHeight = `calc(100vh - ${menuHeight}px)`;
-
-const contentStyles = {
-  height: contentHeight,
-  overflow: "auto"
-};
-
-const IndexPage: React.FunctionComponent = ({ children }) => {
+const IndexPage: React.FunctionComponent = () => {
   return (
-    <Layout>
-      <Content style={contentStyles}>{children}</Content>
-      <Sider width={goldenRatio}>
-        <Row type="flex" justify="space-around" align="middle">
-          <Col span={16}>
-            <StartButton />
-          </Col>
-        </Row>
-      </Sider>
-      <Navigation height={menuHeight} />
-    </Layout>
+    <Row type="flex" justify="space-between" gutter={32}>
+      <Col span={19}>Content</Col>
+      <Col span={5}>
+        <StartButton />
+      </Col>
+    </Row>
   );
 };
 
