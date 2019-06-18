@@ -9,6 +9,6 @@ export default ({ height = 64 }) => (
     <Menu.Item key="2">nav 2</Menu.Item>
     <Menu.Item key="3">nav 3</Menu.Item>
 
-    <Status style={{ float: "right" }} />
+    <Status key="4" style={{ float: "right" }} />
   </MenuBar>
 );

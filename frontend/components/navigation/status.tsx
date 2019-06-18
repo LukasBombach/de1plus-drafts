@@ -22,19 +22,25 @@ interface Data {
 
 export interface StateProps {
   style: React.CSSProperties;
+  key: string;
 }
 
-const State: React.FunctionComponent<StateProps> = ({ style }) => {
+const State: React.FunctionComponent<StateProps> = props => {
   return (
     <Query query={stateQuery}>
-      {(results: StateQueryResult) => getStatus(results, style)}
+      {(results: StateQueryResult) => (
+        <MenuItem {...props}>{getStatusString(results)}</MenuItem>
+      )}
     </Query>
   );
 };
 
-function getStatus(result: StateQueryResult, style: React.CSSProperties) {
-  return <Menu.Item style={style}>{getStatusString(result)}</Menu.Item>;
-}
+const MenuItem: React.FunctionComponent<StateProps> = ({
+  children,
+  ...props
+}) => {
+  return <Menu.Item {...props}>{children}</Menu.Item>;
+};
 
 function getStatusString({ loading, error, data }: StateQueryResult): string {
   if (error) console.log(Error);
