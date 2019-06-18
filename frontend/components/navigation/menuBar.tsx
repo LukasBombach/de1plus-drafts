@@ -9,7 +9,7 @@ const MenuBar: React.FunctionComponent<MenuProps> = ({ height, children }) => (
   <Menu
     theme="dark"
     mode="horizontal"
-    defaultSelectedKeys={["1"]}
+    defaultSelectedKeys={["espresso"]}
     style={getStyle(height)}
   >
     {children}

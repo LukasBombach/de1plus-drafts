@@ -11,8 +11,8 @@ interface ButtonProps {
 }
 
 const baseProps = {
-  type: "primary",
-  size: "large"
+  size: "large",
+  type: "primary"
 };
 
 const statusProps: StatusProps = {
@@ -20,13 +20,13 @@ const statusProps: StatusProps = {
     children: "Loading",
     loading: true
   },
-  connecting: {
-    children: "Connecting",
-    loading: true
-  },
   disonnected: {
     children: "Connect",
     icon: "api"
+  },
+  connecting: {
+    children: "Connecting",
+    loading: true
   },
   idle: {
     children: "Turn off",
