@@ -1,22 +1,23 @@
 import React from "react";
 import { ApolloProvider } from "react-apollo";
 import App, { Container } from "next/app";
-import { Layout } from "antd";
-import withApolloClient from "../lib/with-apollo-client";
-import "../theme/index.less";
+import styled from "styled-components";
 
+import withApolloClient from "../lib/with-apollo-client";
 import Navigation from "../components/navigation";
 
-const { Content } = Layout;
-const menuHeight = 96;
-const contentHeight = `calc(100vh - ${menuHeight}px)`;
+import "../theme/index.less";
 
-const contentStyles = {
-  height: contentHeight,
-  padding: 32,
-  boxSizing: "border-box",
-  overflow: "auto"
-};
+const AppLayout = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 96px;
+  grid-column-gap: 32px;
+  grid-row-gap: 0;
+  justify-items: stretch;
+  align-items: stretch;
+  height: 100vh;
+`;
 
 class MyApp extends App {
   render() {
@@ -24,12 +25,10 @@ class MyApp extends App {
     return (
       <Container>
         <ApolloProvider client={apolloClient}>
-          <Layout>
-            <Content style={contentStyles}>
-              <Component {...pageProps} />
-            </Content>
-            <Navigation height={menuHeight} />
-          </Layout>
+          <AppLayout>
+            <Component {...pageProps} />
+            <Navigation />
+          </AppLayout>
         </ApolloProvider>
       </Container>
     );

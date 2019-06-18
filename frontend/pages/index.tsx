@@ -1,15 +1,22 @@
-import { Row, Col } from "antd";
-import StartButton from "../components/startButton";
+import React from "react";
+import styled from "styled-components";
+import Content from "../components/espresso/content";
+import SideBar from "../components/espresso/sidebar";
 
-const IndexPage: React.FunctionComponent = () => {
-  return (
-    <Row type="flex" justify="space-between" gutter={32}>
-      <Col span={19}>Content</Col>
-      <Col span={5}>
-        <StartButton />
-      </Col>
-    </Row>
-  );
-};
+const EspressoLayout = styled.main`
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  grid-column-gap: 32px;
+  grid-row-gap: 0px;
+  justify-items: stretch;
+  align-items: stretch;
+`;
+
+const IndexPage: React.FunctionComponent = () => (
+  <EspressoLayout>
+    <Content />
+    <SideBar />
+  </EspressoLayout>
+);
 
 export default IndexPage;
