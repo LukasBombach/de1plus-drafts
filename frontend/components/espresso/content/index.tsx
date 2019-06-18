@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import dynamic from "next/dynamic";
-import { Row, Col } from "antd";
 
 const CurveChart = dynamic(() => import("./curveChart"), { ssr: false });
 
@@ -14,21 +13,9 @@ const IndexPage: React.FunctionComponent = () => {
 
   return (
     <section ref={section}>
-      <Row>
-        <Col span={24}>
-          <CurveChart width={width} height={Math.floor(height / 3)} />
-        </Col>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <CurveChart width={width} height={Math.floor(height / 3)} />
-        </Col>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <CurveChart width={width} height={Math.floor(height / 3)} />
-        </Col>
-      </Row>
+      <CurveChart width={width} height={Math.floor(height / 3)} />
+      <CurveChart width={width} height={Math.floor(height / 3)} />
+      <CurveChart width={width} height={Math.floor(height / 3)} />
     </section>
   );
 };
