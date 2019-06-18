@@ -1,5 +1,5 @@
 import { Menu } from "antd";
-import LoadStatus from "./loadStatus";
+import LoadStatus from "../de1/loadStatus";
 
 export interface StateProps {
   style?: React.CSSProperties;
