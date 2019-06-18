@@ -20,6 +20,10 @@ const statusProps: StatusProps = {
     children: "Loading",
     loading: true
   },
+  connecting: {
+    children: "Connecting",
+    loading: true
+  },
   disonnected: {
     children: "Connect",
     icon: "api"
@@ -60,7 +64,7 @@ async function clickHandler(
   setStatus: React.Dispatch<React.SetStateAction<string>>
 ): Promise<void> {
   if (status === "disonnected") {
-    setStatus("loading");
+    setStatus("connecting");
     await wait();
     setStatus("idle");
   }
