@@ -6,10 +6,34 @@ const de1 = new DE1();
 
 const resolvers = {
   Query: {
-    state: async () => await de1.state(),
-    water: async () => await de1.water(),
-    version: async () => await de1.version(),
-    connected: async () => await de1.connected()
+    state: async () => {
+      try {
+        return await de1.state();
+      } catch (err) {
+        return null;
+      }
+    },
+    water: async () => {
+      try {
+        return await de1.water();
+      } catch (err) {
+        return null;
+      }
+    },
+    version: async () => {
+      try {
+        return await de1.version();
+      } catch (err) {
+        return null;
+      }
+    },
+    connected: async () => {
+      try {
+        return await de1.connected();
+      } catch (err) {
+        return null;
+      }
+    }
   },
   Mutation: {
     async connect() {

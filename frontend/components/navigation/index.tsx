@@ -1,14 +1,17 @@
 import React from "react";
 import { Menu } from "antd";
 import MenuBar from "./menuBar";
-import Status from "./status";
+import RightItem from "./rightHandMenuItem";
+import MainSwitch from "./mainSwitch";
 
-export default ({ height = 64 }) => (
+export default ({ height = 96 }) => (
   <MenuBar height={height}>
     <Menu.Item key="1">nav 1</Menu.Item>
     <Menu.Item key="2">nav 2</Menu.Item>
     <Menu.Item key="3">nav 3</Menu.Item>
 
-    <Status key="4" style={{ float: "right" }} />
+    <RightItem>
+      <MainSwitch />
+    </RightItem>
   </MenuBar>
 );
