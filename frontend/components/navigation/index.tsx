@@ -4,23 +4,28 @@ import MenuBar from "./menuBar";
 import RightItem from "./rightHandMenuItem";
 import MainSwitch from "./mainSwitch";
 
+const LeftItem = Menu.Item;
+
 export default ({ height = 96 }) => (
   <MenuBar height={height}>
-    <Menu.Item key="flush">
+    <LeftItem key="flush">
       <Icon type="arrow-down" />
       Flush
-    </Menu.Item>
-    <Menu.Item key="espresso">
+    </LeftItem>
+
+    <LeftItem key="espresso">
       <Icon type="coffee" /> Espresso
-    </Menu.Item>
-    <Menu.Item key="steam">
+    </LeftItem>
+
+    <LeftItem key="steam">
       <Icon type="cloud" />
       Steam
-    </Menu.Item>
-    <Menu.Item key="water">
+    </LeftItem>
+
+    <LeftItem key="water">
       <Icon type="experiment" />
       Water
-    </Menu.Item>
+    </LeftItem>
 
     <RightItem>
       <MainSwitch />
