@@ -146,17 +146,11 @@ const CurveChart: React.FunctionComponent<CurveChartProps> = ({
     scale={cols}
     forceFit={!!width}
   >
-    <Legend />
     <Axis name="month" />
     <Axis
       name="temperature"
       label={{
         formatter: val => `${val}°C`
-      }}
-    />
-    <Tooltip
-      crosshairs={{
-        type: "y"
       }}
     />
     <Geom
