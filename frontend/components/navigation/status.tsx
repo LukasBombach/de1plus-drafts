@@ -21,8 +21,8 @@ interface Data {
 }
 
 export interface StateProps {
-  style: React.CSSProperties;
-  key: string;
+  style?: React.CSSProperties;
+  key?: string;
 }
 
 const State: React.FunctionComponent<StateProps> = props => {
