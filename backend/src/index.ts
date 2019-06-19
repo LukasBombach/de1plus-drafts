@@ -37,20 +37,16 @@ const resolvers = {
   },
   Mutation: {
     async connect() {
-      await de1.connect();
-      return true;
+      return await de1.connect();
     },
     async disconnect() {
-      await de1.disconnect();
-      return true;
+      return await de1.disconnect();
     },
     async turnOn() {
-      await de1.turnOn();
-      return true;
+      return await de1.turnOn();
     },
     async turnOff() {
-      await de1.turnOff();
-      return true;
+      return await de1.turnOff();
     }
   },
   State: StateSkalar

@@ -8,10 +8,10 @@ type Query {
 }
 
 type Mutation {
-  connect: Boolean
+  connect: State
   disconnect: Boolean
-  turnOn: Boolean
-  turnOff: Boolean
+  turnOn: State
+  turnOff: State
 }
 
 type Water {
