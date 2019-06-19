@@ -3,19 +3,19 @@ import Card from "./card";
 import Time from "./time";
 
 const { Item } = Timeline;
-
 const loading = <Icon type="loading" />;
+const itemStyle = { paddingBottom: "12px" };
 
 export default () => (
   <Card title="Time">
-    <Timeline>
-      <Item dot={loading}>
+    <Timeline style={{ marginBottom: -40 }}>
+      <Item style={itemStyle} dot={loading}>
         <Time>3s</Time> Preinfusion
       </Item>
-      <Item color="grey">
+      <Item style={itemStyle} color="grey">
         <Time>0s</Time> Pouring
       </Item>
-      <Item color="grey">
+      <Item style={itemStyle} color="grey">
         <Time>0s</Time> Total
       </Item>
     </Timeline>

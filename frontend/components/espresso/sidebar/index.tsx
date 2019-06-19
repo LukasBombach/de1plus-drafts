@@ -11,8 +11,8 @@ const Aside = styled.aside`
 
 export default () => (
   <Aside>
-    <StartButton />
-    <Spacer />
+    <StartButton size="100%" />
+    <Spacer height={4} />
     <Info />
   </Aside>
 );

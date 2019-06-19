@@ -10,7 +10,7 @@ const EspressoPadding = styled.div`
 
 const EspressoLayout = styled.main`
   display: grid;
-  grid-template-columns: 1fr 240px;
+  grid-template-columns: 1fr 200px;
   grid-column-gap: 32px;
   grid-row-gap: 0px;
   justify-items: stretch;
