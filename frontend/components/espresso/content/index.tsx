@@ -14,9 +14,9 @@ const IndexPage: React.FunctionComponent = () => {
 
   return (
     <section ref={section}>
+      {/* <CurveChart width={width} height={thirdOfHeight} />
       <CurveChart width={width} height={thirdOfHeight} />
-      <CurveChart width={width} height={thirdOfHeight} />
-      <CurveChart width={width} height={thirdOfHeight} />
+      <CurveChart width={width} height={thirdOfHeight} /> */}
     </section>
   );
 };

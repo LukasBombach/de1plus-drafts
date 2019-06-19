@@ -18,7 +18,7 @@ export default class Characteristic {
     this.api = api;
   }
 
-  public async read(name: string): Promise<any> {
+  public async read(name: keyof Api): Promise<any> {
     this.ensureConnected();
     const { uuid, decode } = this.api[name];
     const buffer = await this.service.read(uuid);
