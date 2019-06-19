@@ -63,6 +63,10 @@ const server = new GraphQLServer({
 
 server.start(async () => {
   console.log("Server is running on http://localhost:4000");
-  await de1.connect();
-  console.log("Connected to DE1");
+  try {
+    await de1.connect();
+    console.log("Connected to DE1");
+  } catch ({ message }) {
+    console.log(message);
+  }
 });

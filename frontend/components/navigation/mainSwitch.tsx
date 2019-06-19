@@ -1,6 +1,20 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import { Button } from "antd";
-import LoadStatus from "../de1/loadStatus";
+import withStatus from "../de1/withStatus";
+import { State } from "../../../backend/de1/api/characteristics/state";
+
+export type Status = State | "error" | "loading" | "disconnected";
+
+interface MainSwitchProps {
+  data: Data;
+}
+
+interface Data {
+  loading: boolean;
+  error?: Error;
+  connected: boolean;
+  state: State;
+}
 
 interface StatusProps {
   [name: string]: ButtonProps;
@@ -20,7 +34,7 @@ const statusProps: StatusProps = {
     children: "Loading",
     loading: true
   },
-  disonnected: {
+  disconnected: {
     children: "Connect",
     icon: "api"
   },
@@ -38,61 +52,22 @@ const statusProps: StatusProps = {
   }
 };
 
-const MainSwitch: React.FunctionComponent = () => {
-  const [fakeStatus, setFakeStatus] = useState("loading");
-  useEffect(() => {
-    fakeLoaded(setFakeStatus);
-  }, []);
-
-  return (
-    <LoadStatus>
-      {({ status }) => {
-        const props = getPropsForStatus(fakeStatus);
-        return (
-          <Button
-            {...props}
-            onClick={() => clickHandler(fakeStatus, setFakeStatus)}
-          />
-        );
-      }}
-    </LoadStatus>
-  );
+const MainSwitch: React.FunctionComponent<MainSwitchProps> = props => {
+  const status = getStatusString(props.data);
+  const buttonProps = getPropsForStatus(status);
+  return <Button {...buttonProps} />;
 };
 
-async function clickHandler(
-  status: string,
-  setStatus: React.Dispatch<React.SetStateAction<string>>
-): Promise<void> {
-  if (status === "disonnected") {
-    setStatus("connecting");
-    await wait();
-    setStatus("idle");
-  }
-  if (status === "idle") {
-    setStatus("sleep");
-  }
-  if (status === "sleep") {
-    setStatus("idle");
-  }
-}
-
-function fakeLoaded(
-  setStatus: React.Dispatch<React.SetStateAction<string>>,
-  ms: number = 500
-): void {
-  window.setTimeout(() => setStatus("disonnected"), ms);
-}
-
-async function wait(ms: number = 500, success: boolean = true) {
-  return new Promise((resolve, reject) => {
-    window.setTimeout(() => (success ? resolve() : reject()), ms);
-  });
-}
-
-// TODO get rid of any
 function getPropsForStatus(status: string): React.PropsWithChildren<any> {
   const additionalProps = statusProps[status];
   return { ...baseProps, ...additionalProps };
 }
 
-export default MainSwitch;
+function getStatusString({ loading, error, connected, state }: Data): Status {
+  if (error) return "error";
+  if (loading) return "loading";
+  if (!connected) return "disconnected";
+  return state;
+}
+
+export default withStatus(MainSwitch);

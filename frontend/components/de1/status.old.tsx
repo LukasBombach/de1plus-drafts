@@ -1,16 +1,15 @@
-import { Query, QueryResult } from "react-apollo";
-import gql from "graphql-tag";
+import { Mutation, Query, QueryResult } from "react-apollo";
+import {
+  GET_STATE,
+  CONNECT,
+  DISCONNECT,
+  TURN_ON,
+  TURN_OFF,
+  State
+} from "./statusQueries";
 
-export const stateQuery = gql`
-  query {
-    connected
-    state
-  }
-`;
-
-interface Data {
-  connected: boolean;
-  state: string;
+export interface LoadStatusProps {
+  children: (params: LoadStatusParams) => React.ReactNode;
 }
 
 export interface LoadStatusParams {
@@ -19,19 +18,15 @@ export interface LoadStatusParams {
   status: string;
 }
 
-export interface LoadStatusProps {
-  children: (params: LoadStatusParams) => React.ReactNode;
-}
-
 const LoadStatus: React.FunctionComponent<LoadStatusProps> = props => {
   return (
-    <Query<Data> query={stateQuery}>
+    <Query<State> query={GET_STATE}>
       {results => props.children(childParams(results))}
     </Query>
   );
 };
 
-function childParams(results: QueryResult<Data>): LoadStatusParams {
+function childParams(results: QueryResult<State>): LoadStatusParams {
   const status = getStatusString(results);
   const { error, loading, data } = results;
   if (error) console.error(error);
@@ -40,7 +35,7 @@ function childParams(results: QueryResult<Data>): LoadStatusParams {
 }
 
 // todo make return type Enum based on de1 lib
-function getStatusString({ loading, error, data }: QueryResult<Data>): string {
+function getStatusString({ loading, error, data }: QueryResult<State>): string {
   if (error) return "error";
   if (loading) return "loading";
   if (!data) return "error";
