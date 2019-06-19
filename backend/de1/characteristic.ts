@@ -1,5 +1,5 @@
 import Service from "./service";
-import { Api } from "./api";
+import { Api, ApiTypes, ConverterType } from "./api";
 import Peripheral from "./peripheral";
 
 export default class Characteristic {
@@ -25,10 +25,13 @@ export default class Characteristic {
     return decode(buffer);
   }
 
-  public async write(name: string, value: any): Promise<void> {
+  public async write<K extends keyof Api>(
+    name: K,
+    value: Api[K]["type"]
+  ): Promise<void> {
     this.ensureConnected();
     const { uuid, encode } = this.api[name];
-    const buffer = encode(value);
+    const buffer = encode(value as any); // TODO any hack
     return await this.service.write(uuid, buffer);
   }
 

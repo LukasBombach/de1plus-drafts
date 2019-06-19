@@ -17,12 +17,26 @@ export type Decoder<T> = (buffer: Buffer) => T;
 export type Encoder<T> = (data: T) => Buffer;
 export type Notifier<T> = (callback: (data: T) => void) => void;
 
-export interface Api {
-  state: Converter<State>;
-  water: Converter<Water>;
-  version: Converter<Versions>;
+export interface ApiTypes {
+  state: State;
+  water: Water;
+  version: Versions;
 }
 
-const api: Api = { state, water, version };
+export interface ConverterType<T> extends Converter<T> {
+  type: T;
+}
+
+export interface Api {
+  state: ConverterType<State>;
+  water: ConverterType<Water>;
+  version: ConverterType<Versions>;
+}
+
+const api: Api = {
+  state: state as any, // TODO any hack
+  water: water as any, // TODO any hack
+  version: version as any // TODO any hack
+};
 
 export default api;
