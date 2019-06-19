@@ -6,6 +6,10 @@ export { State } from "./characteristics/state";
 export { Water } from "./characteristics/water";
 export { Versions } from "./characteristics/version";
 
+export interface ConverterType<T> extends Converter<T> {
+  type: T;
+}
+
 export interface Converter<T> {
   uuid: string;
   decode?: Decoder<T>;
@@ -17,16 +21,6 @@ export type Decoder<T> = (buffer: Buffer) => T;
 export type Encoder<T> = (data: T) => Buffer;
 export type Notifier<T> = (callback: (data: T) => void) => void;
 
-export interface ApiTypes {
-  state: State;
-  water: Water;
-  version: Versions;
-}
-
-export interface ConverterType<T> extends Converter<T> {
-  type: T;
-}
-
 export interface Api {
   state: ConverterType<State>;
   water: ConverterType<Water>;
@@ -34,9 +28,9 @@ export interface Api {
 }
 
 const api: Api = {
-  state: state as any, // TODO any hack
-  water: water as any, // TODO any hack
-  version: version as any // TODO any hack
+  state: state as ConverterType<State>, // TODO type hack
+  water: water as ConverterType<Water>, // TODO type hack
+  version: version as ConverterType<Versions> // TODO any type
 };
 
 export default api;
