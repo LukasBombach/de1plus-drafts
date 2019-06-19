@@ -3,6 +3,11 @@ import styled from "styled-components";
 import Content from "../components/espresso/content";
 import SideBar from "../components/espresso/sidebar";
 
+const EspressoPadding = styled.div`
+  padding: 32px;
+  display: grid;
+`;
+
 const EspressoLayout = styled.main`
   display: grid;
   grid-template-columns: 1fr 240px;
@@ -13,10 +18,12 @@ const EspressoLayout = styled.main`
 `;
 
 const IndexPage: React.FunctionComponent = () => (
-  <EspressoLayout>
-    <Content />
-    <SideBar />
-  </EspressoLayout>
+  <EspressoPadding>
+    <EspressoLayout>
+      <Content />
+      <SideBar />
+    </EspressoLayout>
+  </EspressoPadding>
 );
 
 export default IndexPage;

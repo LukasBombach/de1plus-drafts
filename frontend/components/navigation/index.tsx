@@ -30,5 +30,10 @@ export default ({ height = 96 }) => (
     <RightItem>
       <MainSwitch />
     </RightItem>
+
+    <RightItem>
+      <Icon type="setting" style={{ marginRight: 10 }} />
+      Settings
+    </RightItem>
   </MenuBar>
 );

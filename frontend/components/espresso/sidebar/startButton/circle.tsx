@@ -12,6 +12,7 @@ interface DivProps {
 const SizeWrapper = styled.div`
   width: ${(props: DivProps) => props.size};
   display: inline-block;
+  padding: 12px;
 `;
 
 const RoundEl = styled.a`
@@ -29,6 +30,7 @@ const AlignCenterDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   position: absolute;
   top: 0;
   width: 100%;
