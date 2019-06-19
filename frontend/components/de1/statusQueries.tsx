@@ -1,3 +1,4 @@
+import { ChildDataProps } from "react-apollo";
 import gql from "graphql-tag";
 
 export const GET_STATE = gql`
@@ -31,7 +32,15 @@ export const TURN_OFF = gql`
   }
 `;
 
-export interface State {
+export type StatusResponse = {
   connected: boolean;
   state: string;
-}
+};
+
+export type StatusVariables = {};
+
+export type StatusChildProps = ChildDataProps<
+  {},
+  StatusResponse,
+  StatusVariables
+>;

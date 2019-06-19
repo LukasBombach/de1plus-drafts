@@ -10,8 +10,8 @@ import {
 
 export default compose(
   graphql(GET_STATE),
-  graphql(CONNECT),
-  graphql(DISCONNECT),
-  graphql(TURN_ON),
-  graphql(TURN_OFF)
+  graphql(CONNECT, { name: "connect" }),
+  graphql(DISCONNECT, { name: "disconnect" }),
+  graphql(TURN_ON, { name: "turnOn" }),
+  graphql(TURN_OFF, { name: "turnOff" })
 );
