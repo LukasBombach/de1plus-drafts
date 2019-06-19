@@ -12,6 +12,7 @@ interface MainSwitchProps {
     error?: Error;
     connected: boolean;
     state: State;
+    status: Status;
   };
   connect: Function;
   disconnect: Function;
@@ -19,7 +20,21 @@ interface MainSwitchProps {
   turnOn: Function;
 }
 
+interface StateActionMap {
+  [key: string]: Function;
+}
+
 class MainSwitch extends React.Component<MainSwitchProps> {
+  handleButtonClick = async () => {
+    const stateActionMap: StateActionMap = {
+      disconnected: () => this.props.connect(),
+      sleep: () => this.props.turnOn(),
+      idle: () => this.props.turnOff()
+    };
+    const status = this.getStatusString();
+    await stateActionMap[status]();
+  };
+
   getStatusString(): Status {
     const { loading, error, connected, state } = this.props.data;
     if (error) return "error";
@@ -31,7 +46,7 @@ class MainSwitch extends React.Component<MainSwitchProps> {
   render() {
     const status = this.getStatusString();
     const buttonProps = getButtonProps(status);
-    return <Button {...buttonProps} />;
+    return <Button {...buttonProps} onClick={this.handleButtonClick} />;
   }
 }
 
