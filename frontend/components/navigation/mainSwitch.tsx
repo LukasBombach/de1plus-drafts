@@ -13,6 +13,7 @@ interface MainSwitchProps {
     connected: boolean;
     state: State;
     status: Status;
+    refetch: Function;
   };
   connect: Function;
   disconnect: Function;
@@ -27,13 +28,18 @@ interface StateActionMap {
 class MainSwitch extends React.Component<MainSwitchProps> {
   handleButtonClick = async () => {
     const stateActionMap: StateActionMap = {
-      disconnected: () => this.props.connect(),
+      disconnected: () => this.connect(),
       sleep: () => this.props.turnOn(),
       idle: () => this.props.turnOff()
     };
     const status = this.getStatusString();
     await stateActionMap[status]();
+    await this.props.data.refetch();
   };
+
+  async connect() {
+    await this.props.connect();
+  }
 
   getStatusString(): Status {
     const { loading, error, connected, state } = this.props.data;
