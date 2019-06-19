@@ -7,7 +7,7 @@ export { Water } from "./characteristics/water";
 export { Versions } from "./characteristics/version";
 
 export interface ConverterType<T> extends Converter<T> {
-  type: T;
+  type?: T;
 }
 
 export interface Converter<T> {
@@ -28,9 +28,9 @@ export interface Api {
 }
 
 const api: Api = {
-  state: state as ConverterType<State>, // TODO type hack
-  water: water as ConverterType<Water>, // TODO type hack
-  version: version as ConverterType<Versions> // TODO any type
+  state,
+  water,
+  version
 };
 
 export default api;
