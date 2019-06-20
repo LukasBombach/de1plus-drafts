@@ -1,7 +1,7 @@
 import parse, { BinaryDesc } from "../parse";
 import { Converter } from "../../api";
 
-const converter: Converter<Water> = {
+const converter: Converter<"water"> = {
   uuid: "a011",
   decode
 };

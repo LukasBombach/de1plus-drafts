@@ -1,5 +1,5 @@
 import Service from "./service";
-import { Api, Encoder } from "./api";
+import { Api } from "./api";
 import Peripheral from "./peripheral";
 
 export default class Characteristic {

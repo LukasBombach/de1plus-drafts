@@ -1,7 +1,7 @@
 import parse, { BinaryDesc } from "../parse";
 import { Converter } from "..";
 
-const converter: Converter<Versions> = {
+const converter: Converter<"version"> = {
   uuid: "a011",
   decode
 };

@@ -1,6 +1,7 @@
 import Peripheral from "./peripheral";
 import Characteristic from "./characteristic";
-import api, { Api, State, ApiKey, ApiValue } from "./api";
+import api, { ApiKey, ApiValue } from "./api";
+import { State } from "./api/characteristics/state";
 
 const DE1_NAME = /DE1/;
 const SERVICE_UUID = "a000";

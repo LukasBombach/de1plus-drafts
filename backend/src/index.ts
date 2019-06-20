@@ -1,5 +1,5 @@
 import { GraphQLServer } from "graphql-yoga";
-import DE1 from "../de1/de1";
+import DE1 from "../de1";
 import StateSkalar from "../de1-graphql/scalars/state";
 
 const de1 = new DE1();
@@ -8,21 +8,21 @@ const resolvers = {
   Query: {
     state: async () => {
       try {
-        return await de1.state();
+        return await de1.get("state");
       } catch (err) {
         return null;
       }
     },
     water: async () => {
       try {
-        return await de1.water();
+        return await de1.get("water");
       } catch (err) {
         return null;
       }
     },
     version: async () => {
       try {
-        return await de1.version();
+        return await de1.get("version");
       } catch (err) {
         return null;
       }
