@@ -3,6 +3,7 @@ import { Typography } from "antd";
 import styled from "styled-components";
 import Info, { Items } from "./info";
 import withStatus from "../../../de1/withStatus";
+import withTemperature from "../../../de1/withTemperature";
 
 const { Title } = Typography;
 
@@ -31,11 +32,17 @@ const State = withStatus(({ data }) => {
   return <Info items={items} />;
 });
 
+const Temperature = withTemperature(({ data }) => {
+  const items: Items = [["Goal", data.goal], ["Metal", data.metal]];
+  return <Info items={items} />;
+});
+
 const Dashboard: React.FunctionComponent = () => (
   <Section>
     <Title level={3}>Dashboard</Title>
     <Grid>
       <State />
+      <Temperature />
     </Grid>
   </Section>
 );
