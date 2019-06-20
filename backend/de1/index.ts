@@ -1,6 +1,6 @@
 import Peripheral from "./peripheral";
 import Characteristic from "./characteristic";
-import api, { Api, State } from "./api";
+import api, { Api, State, ApiKey, ApiValue } from "./api";
 
 const DE1_NAME = /DE1/;
 const SERVICE_UUID = "a000";
@@ -38,29 +38,27 @@ export default class DE1 {
     return this.peripheral.isConnected() ? "connected" : "disconnected";
   }
 
-  public async get<Name extends keyof Api, Value = Api[Name]["type"]>(
-    name: Name
-  ): Promise<Value> {
+  public async get<Name extends ApiKey>(name: Name): Promise<ApiValue<Name>> {
     return await this.characteristic.read(name);
   }
 
-  public async set<Name extends keyof Api, Value = Api[Name]["type"]>(
+  public async set<Name extends ApiKey>(
     name: Name,
-    value: Value
+    value: ApiValue<Name>
   ): Promise<void> {
     return await this.characteristic.write(name, value);
   }
 
-  public on<Name extends keyof Api, Value = Api[Name]["type"]>(
+  public on<Name extends ApiKey>(
     name: Name,
-    callback: (value: Value) => void
+    callback: (value: ApiValue<Name>) => void
   ): void {
     throw new Error("Not implemented yet");
   }
 
-  public off<Name extends keyof Api, Value = Api[Name]["type"]>(
+  public off<Name extends ApiKey>(
     name: Name,
-    callback?: (value: Value) => void
+    callback?: (value: ApiValue<Name>) => void
   ): void {
     throw new Error("Not implemented yet");
   }

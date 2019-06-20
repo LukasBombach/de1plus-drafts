@@ -6,6 +6,17 @@ export { State } from "./characteristics/state";
 export { Water } from "./characteristics/water";
 export { Versions } from "./characteristics/version";
 
+/* type ApiStruct = State | Water | Versions;
+
+interface ApiMap {
+  state: State;
+  water: Water;
+  version: Versions;
+} */
+
+export type ApiKey = keyof Api;
+export type ApiValue<Name extends ApiKey> = Api[Name]["type"];
+
 export interface Converter<T> {
   uuid: string;
   decode?: Decoder<T>;
