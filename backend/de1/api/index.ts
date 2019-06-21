@@ -1,26 +1,28 @@
-import state from "./characteristics/state";
-import water from "./characteristics/water";
-import version from "./characteristics/version";
+import state, { State } from "./characteristics/state";
+import water, { Water } from "./characteristics/water";
+import version, { Versions } from "./characteristics/version";
 
-export type ApiKey = keyof Api;
-export type ApiValue<Name extends ApiKey> = Api[Name]["type"];
-// export type TypeOfApiValue<N = keyof Api> = ApiValue<N>;
+export type ApiKey = keyof ApiMap;
+export type ApiValue<Name extends ApiKey> = ApiMap[Name];
 
-export interface Api {
-  state: Converter<"state">;
-  water: Converter<"water">;
-  version: Converter<"version">;
-}
-
-export interface Converter<Name extends ApiKey> {
+export interface Converter<Name extends ApiKey, Value = ApiValue<Name>> {
   uuid: string;
-  decode?: (buffer: Buffer) => ApiValue<Name>;
-  encode?: (data: ApiValue<Name>) => Buffer;
-  notify?: (callback: (data: ApiValue<Name>) => void) => void;
-  type?: ApiValue<Name>;
+  decode?: (buffer: Buffer) => Value;
+  encode?: (data: Value) => Buffer;
+  notify?: (callback: (data: Value) => void) => void;
 }
 
-const api: Api = {
+interface ApiMap {
+  state: State;
+  water: Water;
+  version: Versions;
+}
+
+/* interface Api {
+  [key: ApiKey]: Converter<key>;
+} */
+
+const api = {
   state,
   water,
   version
