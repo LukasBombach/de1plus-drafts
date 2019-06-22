@@ -2,23 +2,14 @@ import { Peripheral, Service, Characteristic } from "@abandonware/noble";
 import timeoutAsPromised from "./timeout";
 
 export function connect(peripheral: Peripheral, timeout?: number) {
-  return Promise.race([
-    connectAsPromised(peripheral),
-    timeoutAsPromised("connect", timeout)
-  ]);
+  return Promise.race([connectAsPromised(peripheral), timeoutAsPromised("connect", timeout)]);
 }
 
 export function disconnect(peripheral: Peripheral, timeout?: number) {
-  return Promise.race([
-    disconnectAsPromised(peripheral),
-    timeoutAsPromised("disconnect", timeout)
-  ]);
+  return Promise.race([disconnectAsPromised(peripheral), timeoutAsPromised("disconnect", timeout)]);
 }
 
-export function getService(
-  peripheral: Peripheral,
-  uuid: string
-): Promise<Service> {
+export function getService(peripheral: Peripheral, uuid: string): Promise<Service> {
   return new Promise((resolve, reject) => {
     peripheral.discoverServices([uuid], (error, [service]) =>
       error ? reject(error) : resolve(service)
@@ -26,9 +17,7 @@ export function getService(
   });
 }
 
-export function getCharacteristics(
-  service: Service
-): Promise<Characteristic[]> {
+export function getCharacteristics(service: Service): Promise<Characteristic[]> {
   return new Promise((resolve, reject) => {
     service.discoverCharacteristics([], (error, characteristics) =>
       error ? reject(error) : resolve(characteristics)
@@ -42,10 +31,7 @@ export function read(characteristic: Characteristic): Promise<Buffer> {
   });
 }
 
-export function write(
-  characteristic: Characteristic,
-  buffer: Buffer
-): Promise<void> {
+export function write(characteristic: Characteristic, buffer: Buffer): Promise<void> {
   return new Promise((resolve, reject) => {
     characteristic.write(buffer, false, err => (err ? reject(err) : resolve()));
   });
