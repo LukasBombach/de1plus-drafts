@@ -1,9 +1,9 @@
+import { Peripheral as NoblePeripheral } from "@abandonware/noble";
 import Noble from "./noble";
-import Scanner from "./scanner";
 
 export default class Peripheral {
   private name: RegExp;
-  private peripheral: Noble.Peripheral;
+  private peripheral: NoblePeripheral;
 
   constructor(name: RegExp | string) {
     this.name = new RegExp(name);
@@ -11,7 +11,7 @@ export default class Peripheral {
 
   public async connect(): Promise<boolean> {
     if (this.isConnected()) return this.isConnected();
-    this.peripheral = await Scanner.findPeripheral(this.name);
+    this.peripheral = await Noble.findPeripheral(this.name);
     await Noble.connect(this.peripheral);
     return this.isConnected();
   }
@@ -27,7 +27,7 @@ export default class Peripheral {
     return this.peripheral.state === "connected";
   }
 
-  public noble(): Noble.Peripheral {
+  public noble(): NoblePeripheral {
     return this.peripheral;
   }
 }

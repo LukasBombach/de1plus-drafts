@@ -7,6 +7,7 @@ import {
 } from "@abandonware/noble";
 import timeoutAsPromised from "./util/timeout";
 
+// TODO this class sucks
 export default class Scanner {
   private name: RegExp;
   private timeout: number;
