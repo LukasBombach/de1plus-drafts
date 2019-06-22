@@ -1,5 +1,5 @@
 import Service from "./service";
-import { Api } from "./api";
+import { Api, Converter } from "./api";
 import Peripheral from "./peripheral";
 
 export default class Characteristic {
@@ -21,7 +21,7 @@ export default class Characteristic {
     name: Name
   ): Promise<Value> {
     this.ensureConnected();
-    const { uuid, decode } = this.api[name];
+    const { uuid, decode } = (this.api[name] as any) as Converter<Value>; // TODO get rid of dirty typecast
     const buffer = await this.service.read(uuid);
     return decode(buffer);
   }
@@ -31,7 +31,7 @@ export default class Characteristic {
     value: Value
   ): Promise<void> {
     this.ensureConnected();
-    const { uuid, encode } = this.api[name];
+    const { uuid, encode } = (this.api[name] as any) as Converter<Value>; // TODO get rid of dirty typecast
     const buffer = encode(value);
     return await this.service.write(uuid, buffer);
   }
