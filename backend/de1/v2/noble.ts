@@ -20,6 +20,16 @@ export default class Noble {
     return Noble.timeout<void>(disconnect(), "disconnect", ms);
   }
 
+  public static read(characteristic: Characteristic, ms?: number): Promise<Buffer> {
+    const read = promisify<Buffer>(characteristic.read);
+    return Noble.timeout<Buffer>(read(), "read", ms);
+  }
+
+  public static write(characteristic: Characteristic, buffer: Buffer, ms?: number): Promise<void> {
+    const write = promisify<void, Buffer, boolean>(characteristic.write);
+    return Noble.timeout<void>(write(buffer, false), "write", ms);
+  }
+
   public static async getService(peripheral: Peripheral, uuid: string, ms?: number): Promise<Service> {
     const discover = promisify<Service[], string[]>(peripheral.discoverServices);
     const [service] = await Noble.timeout<Service[]>(discover([uuid]), "get service", ms);
