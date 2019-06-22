@@ -48,11 +48,11 @@ export default class DE1 {
     return await this.service.write(name, value);
   }
 
-  public on<Name extends Keys>(name: Name, callback: (value: Values<Name>) => void): void {
-    throw new Error("Not implemented yet");
+  public on<Name extends Keys>(name: Name, listener: (value: Values<Name>) => void): void {
+    this.service.on(name, listener);
   }
 
-  public off<Name extends Keys>(name: Name, callback?: (value: Values<Name>) => void): void {
-    throw new Error("Not implemented yet");
+  public off<Name extends Keys>(name: Name, listener?: (value: Values<Name>) => void): void {
+    this.service.off(name, listener);
   }
 }
