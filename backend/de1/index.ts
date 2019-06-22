@@ -1,24 +1,21 @@
 import Peripheral from "./peripheral";
 import Characteristic from "./characteristic";
-import api, { ApiKey, ApiValue } from "./api";
-import { State } from "./api/characteristics/state";
+import api, { ApiKey, ApiValue, State } from "./api";
 
 const DE1_NAME = /DE1/;
 const SERVICE_UUID = "a000";
-
-export type Connection = "connected" | "disconnected";
 
 export default class DE1 {
   private peripheral: Peripheral = new Peripheral();
   private characteristic: Characteristic = new Characteristic(this.peripheral);
 
-  public async connect(): Promise<Connection> {
+  public async connect(): Promise<boolean> {
     await this.peripheral.connect(DE1_NAME);
     await this.characteristic.mapApiToService(api, SERVICE_UUID);
     return this.connected();
   }
 
-  public async disconnect(): Promise<Connection> {
+  public async disconnect(): Promise<boolean> {
     await this.peripheral.disconnect();
     return this.connected();
   }
@@ -35,8 +32,8 @@ export default class DE1 {
     return await this.get("state");
   }
 
-  public connected(): Connection {
-    return this.peripheral.isConnected() ? "connected" : "disconnected";
+  public connected(): boolean {
+    return this.peripheral.isConnected();
   }
 
   public async get<Name extends ApiKey>(name: Name): Promise<ApiValue<Name>> {

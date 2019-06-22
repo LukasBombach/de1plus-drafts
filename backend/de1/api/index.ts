@@ -2,6 +2,10 @@ import state, { State } from "./characteristics/state";
 import water, { Water } from "./characteristics/water";
 import version, { Versions } from "./characteristics/version";
 
+export { State } from "./characteristics/state";
+export { Water } from "./characteristics/water";
+export { Versions } from "./characteristics/version";
+
 interface ApiMap {
   state: State;
   water: Water;
