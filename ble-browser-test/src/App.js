@@ -15,7 +15,19 @@ function buf2hex(buffer) {
     .join("");
 }
 
-async function handleButtonClick() {
+async function listPermissions() {
+  try {
+    const result = await navigator.permissions.query({
+      name: "bluetooth",
+      deviceId: sessionStorage.lastDevice
+    });
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function listCharacteristics() {
   try {
     const device = await navigator.bluetooth.requestDevice(bleSettings);
     const server = await device.gatt.connect();
@@ -44,7 +56,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={handleButtonClick}>click for bluetooth</button>
+        <button onClick={listCharacteristics}>connect</button>
       </header>
     </div>
   );
