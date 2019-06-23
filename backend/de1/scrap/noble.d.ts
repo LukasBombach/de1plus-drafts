@@ -1,4 +1,4 @@
-/// <reference types="node" />
+/* /// <reference types="node" />
 
 declare module "@abandonware/noble" {
   namespace Noble {
@@ -44,3 +44,4 @@ declare module "@abandonware/noble" {
 
   export default Noble;
 }
+ */

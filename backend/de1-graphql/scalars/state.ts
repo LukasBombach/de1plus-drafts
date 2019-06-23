@@ -15,4 +15,4 @@ export default new GraphQLScalarType({
   }
 }); */
 
-export { states as default } from "../../de1/api/characteristics/state";
+export { states as default } from "../../de1/v1/api/characteristics/state";

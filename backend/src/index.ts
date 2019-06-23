@@ -1,5 +1,5 @@
 import { GraphQLServer } from "graphql-yoga";
-import DE1 from "../de1";
+import DE1 from "../de1/v2";
 import StateSkalar from "../de1-graphql/scalars/state";
 
 const de1 = new DE1();

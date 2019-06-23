@@ -85,6 +85,13 @@
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
 
+"@types/noble@0.0.39":
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/@types/noble/-/noble-0.0.39.tgz#e2bbdfd42445255450b0c5c6a0c6a17b454513d0"
+  integrity sha512-LcyiqFW4KGHXV2WhImece6FgJc8HWNUL/DdDWXTGzWNwhgqq3pTd36U5Wgy74TRGsTvNevvhG8D2ZxHXPDc82g==
+  dependencies:
+    "@types/node" "*"
+
 "@types/node@*":
   version "10.12.12"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.12.tgz#e15a9d034d9210f00320ef718a50c4a799417c47"

@@ -1,7 +1,7 @@
 import Peripheral from "./peripheral";
 import Service from "./service";
 import { DE1_NAME, SERVICE_UUID } from "./settings";
-import characteristics, { Keys, Values, State } from "./characteristics";
+import api, { Keys, Values, State } from "./api";
 
 export default class DE1 {
   private peripheral: Peripheral;
@@ -9,7 +9,7 @@ export default class DE1 {
 
   constructor() {
     this.peripheral = new Peripheral(DE1_NAME);
-    this.service = new Service(this.peripheral, SERVICE_UUID, characteristics);
+    this.service = new Service(this.peripheral, SERVICE_UUID, api);
   }
 
   public async connect(): Promise<boolean> {

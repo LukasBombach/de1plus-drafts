@@ -16,6 +16,7 @@
   "devDependencies": {
     "@types/es6-promisify": "6.0.0",
     "@types/lodash": "4.14.134",
+    "@types/noble": "0.0.39",
     "es6-promisify": "6.0.1",
     "ts-node": "7.0.1",
     "ts-node-dev": "1.0.0-pre.40",
