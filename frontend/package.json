@@ -28,7 +28,7 @@
     "graphql": "14.3.1",
     "isomorphic-unfetch": "3.0.0",
     "less": "3.9.0",
-    "lodash": "4.17.11",
+    "lodash": "4.17.19",
     "next": "8.1.0",
     "next-compose-plugins": "2.2.0",
     "prop-types": "15.7.2",
